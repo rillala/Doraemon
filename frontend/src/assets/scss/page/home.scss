@@ -1,0 +1,8 @@
+main{
+    h1{
+        color: $primaryColorBlue;
+        @include only-mobile{
+            color: $primaryColorBrown;
+        }
+    }
+}

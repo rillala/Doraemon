@@ -1,0 +1,10 @@
+// 使用sass:math
+@use "sass:math";
+
+// 引入其他樣式
+@import "./base/reset";
+@import "./base/color";
+@import "./base/font";
+
+// 引入mixin
+@import "./mixin/mixin";
