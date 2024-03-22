@@ -19,12 +19,8 @@
     }
   ],
   "hosting": {
-    "public": "./forntend/front",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "public": "./frontend/front",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",

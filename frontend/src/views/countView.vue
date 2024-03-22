@@ -5,5 +5,5 @@
 </template>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/page/countView.vue";
+@import "@/assets/scss/page/count.scss";
 </style>
