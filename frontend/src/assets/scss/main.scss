@@ -8,3 +8,9 @@
 
 // 引入mixin
 @import "./mixin/mixin";
+
+@include generate-color-classes($colorSystem);
+
+* {
+  box-sizing: border-box;
+}
