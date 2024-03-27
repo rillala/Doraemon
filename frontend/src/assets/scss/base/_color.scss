@@ -1,11 +1,11 @@
 //主色
-$primaryColorBlue: #59B0E5;
-$primaryColorPink: #E15F9F;
-$primaryColorYellow: #FDBF2C;
-$primaryColorGreen: #2FAD66;
-$primaryColorNavy: #4060B1;
-$primaryColorBrown: #693D18;
-$primaryColorSkin: #EDA0A6;
+$primaryColorBlue: #59b0e5;
+$primaryColorPink: #e15f9f;
+$primaryColorYellow: #fdbf2c;
+$primaryColorGreen: #2fad66;
+$primaryColorNavy: #4060b1;
+$primaryColorBrown: #693d18;
+$primaryColorSkin: #eda0a6;
 
 //文字顏色
 $mainTextColor: #000000;
@@ -17,4 +17,27 @@ $inputHintColor: #a3a3a3;
 
 //背景色
 $bgColorWhite: #ffffff;
-$bgColorGray: #E5E3E6;
+$bgColorGray: #e5e3e6;
+
+$colorSystem: (
+  // 主色
+  primaryColorBlue: #59b0e5,
+  primaryColorPink: #e15f9f,
+  primaryColorYellow: #fdbf2c,
+  primaryColorGreen: #2fad66,
+  primaryColorNavy: #4060b1,
+  primaryColorBrown: #693d18,
+  primaryColorSkin: #eda0a6,
+
+  // 文字顏色
+  mainTextColor: #000000,
+
+  // 輸入框顏色
+  inputColor: #f3f3f3,
+  inputTextColor: #cccccc,
+  inputHintColor: #a3a3a3,
+
+  // 背景色
+  bgColorWhite: #ffffff,
+  bgColorGray: #e5e3e6
+);
