@@ -16,7 +16,7 @@
         left: auto;
         width: auto;
         height: auto;
-        padding: 10px;
+        //padding: 10px;
         border: none;
         @include br-10;
         box-shadow: 8px 8px 7px rgba(0,0,0, .2);
@@ -36,7 +36,7 @@
                 height: auto;
                 aspect-ratio: 1/1;
                 @media screen and (min-width:768px){
-                    margin:20px 0;
+                    margin:10px 0;
                 }
                 img{
                     width: 100%;
