@@ -10,12 +10,13 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/message",
+      path: "/message/:post_class_name",
       name: "message",
       meta: {
         title: "留言板 Message",
       },
       component: () => import("../views/messageView.vue"),
+      props:true,
     },
     {
       path: "/game",

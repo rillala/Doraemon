@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import loading from "@/components/loading.vue";
+import MainHeader from "./components/MainHeader.vue";
 
 // 以下做loading畫面用
 
@@ -28,6 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <MainHeader/>
   <div v-if="isLoading" id="app-loading"><loading /></div>
   <RouterView v-else />
 </template>
