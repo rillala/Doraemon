@@ -60,7 +60,7 @@ export default defineConfig({
       },
       scss: {
         // 配置 Sass 全局變數、混入等
-        additionalData: `@import "@/assets/scss/main.scss";`,
+        additionalData: `@import "./src/assets/scss/main.scss";`,
       },
     },
   },

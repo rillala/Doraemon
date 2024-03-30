@@ -56,7 +56,7 @@ const router = createRouter({
       meta: {
         title: "網站管理員入口",
       },
-      component: () => import("../views/AdminManage.vue"),
+      component: () => import("../views/AdminLoginView.vue"),
     },
     {
       path: "/manage",
@@ -64,7 +64,7 @@ const router = createRouter({
       meta: {
         title: "網站管理頁面",
         // 需要給予權限
-        requiresAdminAuth: true,
+        // requiresAdminAuth: true,
       },
       component: () => import("../views/AdminManage.vue"),
     },
