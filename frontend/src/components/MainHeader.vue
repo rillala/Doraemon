@@ -36,7 +36,7 @@
             <div class="icon-wrap"><img src="/toliet.svg" alt="message"></div>
           </RouterLink>
         </li>
-        <li class="nav-icon" @click="toggleSubMenu('member')">
+        <li class="nav-icon" @click="toggleSignModal">
           <ul class="submenu-wrap" v-show="subMenuStatus.member">
             <li>
               <button class="submenu-btn">資料</button>
@@ -47,16 +47,49 @@
             <li>
               <button class="submenu-btn">收藏</button>
             </li>
+            <li>
+              <button class="submenu-btn">登出</button>
+            </li>
           </ul>
           <div class="icon-wrap"><img src="/member.svg" alt="member"></div>
         </li>
       </ul>
     </div>
   </nav>
+  <div class="sign-wrap" v-show="signModalStatus">
+    <div class="sign-bg" @click="toggleSignModal">
+      <div class="sign-modal" @click.stop>
+        <div class="sign-close" @click="toggleSignModal"><i class="fa-solid fa-x fa-lg" style="color: #ffffff;"></i></div>
+        <label class="sign-switch">
+          <input type="checkbox" v-model="isChecked">
+          <span class="switch-left">登入</span>
+          <span class="switch-right">註冊</span>
+        </label>
+        <div class="sign-outer" ref="signOuter">
+          <div class="sign-row" :style="{ transform: `translateX(-${offset}px)` }">
+            <div class="signin">
+              <input class="sign-input phMarkText" type="text" placeholder="mail">
+              <input class="sign-input phMarkText" type="text" placeholder="password">
+              <span class="sign-forget pcMarkText">忘記密碼？</span>
+              <button class="sign-btn phMarkText">登入</button>
+              <button class="othersign-btn phMarkText">Ｇoogle登入</button>
+            </div>
+            <div class="signup">
+              <input class="sign-input phMarkText" type="text" placeholder="name">
+              <input class="sign-input phMarkText" type="text" placeholder="mail">
+              <input class="sign-input phMarkText" type="text" placeholder="password">
+              <button class="sign-btn phMarkText">註冊</button>
+              <button class="othersign-btn phMarkText">Ｇoogle註冊</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,onMounted,watch } from "vue";
 import { useRouter } from 'vue-router';
 
 const subMenuStatus = ref({
@@ -66,11 +99,34 @@ const subMenuStatus = ref({
 const toggleSubMenu = (subMenu)=>{
   subMenuStatus.value[subMenu] = !subMenuStatus.value[subMenu] 
 };
+const signModalStatus = ref(false);
+const toggleSignModal = ()=>{
+  signModalStatus.value = !signModalStatus.value;
+}
 
 const router = useRouter();
 const navigatePost = (post_class_name)=>{
   router.push({name:'message',params:{post_class_name}})
 };
+
+const isChecked = ref(false);
+const offset = ref(0);
+const signOuter = ref(null);
+console.log(signOuter);
+
+const switchSign = ()=>{
+  if(signOuter.value){
+    const widthItem = signOuter.value.offsetWidth;
+    offset.value = isChecked.value ? widthItem : 0;
+  }
+}
+watch(isChecked, ()=>{
+  switchSign();
+})
+
+onMounted(()=>{
+  switchSign();
+})
 
 </script>
 
