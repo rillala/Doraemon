@@ -16,14 +16,6 @@
     @content;
   }
 }
-
-@mixin btn-shadow{
-  box-shadow: 5px 5px 5px rgba(0,0,0, .2);;
-}
-
-@mixin br-10{
-  border-radius: 10px;
-}
 // 生成顏色 class 名稱: .color / .bg-color
 @mixin generate-color-classes($colors) {
   @each $k, $v in $colors {
@@ -35,4 +27,48 @@
       background-color: $v;
     }
   }
+}
+
+@mixin btn-shadow{
+  box-shadow: 5px 5px 5px rgba(0,0,0, .2);
+}
+@mixin input-shadow{
+  box-shadow: inset 5px 5px 5px rgba(0,0,0, .2), 5px 5px 5px rgba(0,0,0, .2);
+}
+@mixin br-10{
+  border-radius: 10px;
+}
+@mixin btn-primaryColorBlue{
+  cursor: pointer;
+  outline: none;
+  border: solid 3px $bgColorWhite;
+  background-color: $primaryColorBlue;
+  color:$bgColorWhite ;
+  @include br-10;
+  padding: 10px;
+  &:hover{
+    background-color: $primaryColorNavy;
+  }
+}
+@mixin btn-outline-primaryColorBlue{
+  cursor: pointer;
+  outline: none;
+  border: solid 3px $bgColorWhite;
+  background-color: $bgColorWhite;
+  color: $inputHintColor;
+  @include br-10;
+  padding: 10px;
+  &:hover{
+    background-color: $primaryColorNavy;
+    border: solid 3px $bgColorWhite;
+    color: $bgColorWhite;
+  }
+}
+@mixin input-h50{
+  outline: none;
+  border: none;
+  height: 50px;
+  background-color: $bgColorWhite;
+  @include br-10;
+  @include input-shadow;
 }
