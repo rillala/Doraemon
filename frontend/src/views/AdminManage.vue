@@ -8,9 +8,9 @@ import { ref } from "vue";
 const currentView = ref("0");
 
 function changeView(index) {
-  console.log(index);
+  // console.log(index);
   currentView.value = index;
-  console.log(currentView.value);
+  // console.log(currentView.value);
 }
 </script>
 
