@@ -31,14 +31,3 @@ export default apiInstance;
 
 // 如何使用 apiInstance 去抓回後端資料
 //import apiInstance from '@/plugins/auth';
-
-// function getDB() {
-//   apiInstance
-//     .get("url")
-//     .then((response) => {
-//       dataList.value = response.data;
-//     })
-//     .catch((error) => {
-//       console.error("Error:", error);
-//     });
-// }
