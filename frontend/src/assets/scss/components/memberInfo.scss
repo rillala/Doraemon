@@ -1,0 +1,80 @@
+.member-basic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .avatar-wrap {
+        width: 50px;
+        height: 50px;
+        @include br-10;
+        overflow: hidden;
+
+        img {
+            vertical-align: top;
+            width: 100%;
+        }
+    }
+}
+
+.member-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 0;
+    margin-top: 20px;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    background: linear-gradient(116.53deg,
+            rgba(255, 255, 255, 1) 57.54796862602234%,
+            rgba(221, 221, 221, 1) 100%);
+    @include br-10;
+    @include input-shadow;
+}
+
+.member-info::before {
+    position: absolute;
+    z-index: 9;
+    content: "";
+    width: 97.31%;
+    background: linear-gradient(116.53deg,
+            rgba(241, 241, 241, 1) 0%,
+            rgba(255, 255, 255, 1) 36.000001430511475%);
+    @include br-10;
+    right: 1.5%;
+    left: 1.2%;
+    bottom: 1.84%;
+    top: 1.38%;
+}
+
+.input-wrap {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    width: 83.333%;
+
+    .member-input {
+        width: 100%;
+        @include input-h50;
+        padding-left: 20px;
+        color: $primaryColorGreen;
+    }
+
+    ::placeholder {
+        color: $inputHintColor;
+    }
+
+    button {
+        cursor: pointer;
+        outline: none;
+        border: none;
+        background-color: transparent;
+    }
+
+    img {
+        width: 100%;
+        vertical-align: top;
+    }
+}
