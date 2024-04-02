@@ -14,3 +14,10 @@
 * {
   box-sizing: border-box;
 }
+
+:where(.css-dev-only-do-not-override-b92jn9).ant-btn-default:not(
+    :disabled
+  ):hover {
+  color: #fff;
+  background: #4096ff;
+}
