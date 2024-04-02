@@ -71,7 +71,6 @@
                     display: block;
                     background-color: $primaryColorBlue;
                     color: $bgColorWhite;
-                    font-size: $pcFontH4;
                     border: solid 2px $bgColorWhite;
                     @include btn-shadow;
                     @include br-10;
@@ -111,8 +110,10 @@
     left: 0;
     cursor: pointer;
     .sign-modal {
-        width: 80%;
+        max-width: 360px;
+        width: 100%;
         background-color: $primaryColorGreen;
+        background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
         position: absolute;
         z-index: 10000;
         left: 50%;
@@ -241,6 +242,7 @@ input:checked~.switch-right::before {
 }
 
 .sign-outer {
+    //max-width: 360px;
     width: 100%;
     overflow: hidden;
     .sign-row {
@@ -257,7 +259,7 @@ input:checked~.switch-right::before {
             padding: 20px;
 
             .sign-input {
-                width: 66.667%;
+                width: 83.333%;
                 @include input-h50;
                 padding-left: 20px;
                 color: $primaryColorGreen;
@@ -273,12 +275,12 @@ input:checked~.switch-right::before {
 
             .sign-btn {
                 @include btn-primaryColorBlue;
-                width: 66.667%;
+                width: 83.333%;
             }
 
             .othersign-btn {
                 @include btn-outline-primaryColorBlue;
-                width: 66.667%;
+                width: 83.333%;
             }
         }
     }

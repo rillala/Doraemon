@@ -14,13 +14,13 @@
         <li class="nav-icon" @click="toggleSubMenu('message')">
           <ul class="submenu-wrap" v-show="subMenuStatus.message">
             <li>
-              <button class="submenu-btn" @click="navigatePost('LivingRoom')">客廳</button>
+              <button class="submenu-btn phMarkText " @click="navigatePost('LivingRoom')">客廳</button>
             </li>
             <li>
-              <button class="submenu-btn" @click="navigatePost('Bathroom')">廁所</button>
+              <button class="submenu-btn phMarkText " @click="navigatePost('Bathroom')">廁所</button>
             </li>
             <li>
-              <button class="submenu-btn" @click="navigatePost('Bedroom')">房間</button>
+              <button class="submenu-btn phMarkText " @click="navigatePost('Bedroom')">房間</button>
             </li>
           </ul>
           <div class="icon-wrap">
@@ -39,16 +39,16 @@
         <li class="nav-icon" @click="toggleSignModal">
           <ul class="submenu-wrap" v-show="subMenuStatus.member">
             <li>
-              <button class="submenu-btn">資料</button>
+              <button class="submenu-btn phMarkText ">資料</button>
             </li>
             <li>
-              <button class="submenu-btn">發文</button>
+              <button class="submenu-btn phMarkText ">發文</button>
             </li>
             <li>
-              <button class="submenu-btn">收藏</button>
+              <button class="submenu-btn phMarkText ">收藏</button>
             </li>
             <li>
-              <button class="submenu-btn">登出</button>
+              <button class="submenu-btn phMarkText ">登出</button>
             </li>
           </ul>
           <div class="icon-wrap"><img src="/member.svg" alt="member"></div>
@@ -71,15 +71,15 @@
               <input class="sign-input phMarkText" type="text" placeholder="mail">
               <input class="sign-input phMarkText" type="text" placeholder="password">
               <span class="sign-forget pcMarkText">忘記密碼？</span>
-              <button class="sign-btn phMarkText">登入</button>
-              <button class="othersign-btn phMarkText">Ｇoogle登入</button>
+              <button class="sign-btn phInnerText">登入</button>
+              <button class="othersign-btn phInnerText">Ｇoogle登入</button>
             </div>
             <div class="signup">
               <input class="sign-input phMarkText" type="text" placeholder="name">
               <input class="sign-input phMarkText" type="text" placeholder="mail">
               <input class="sign-input phMarkText" type="text" placeholder="password">
-              <button class="sign-btn phMarkText">註冊</button>
-              <button class="othersign-btn phMarkText">Ｇoogle註冊</button>
+              <button class="sign-btn phInnerText">註冊</button>
+              <button class="othersign-btn phInnerText">Ｇoogle註冊</button>
             </div>
           </div>
         </div>
@@ -112,7 +112,6 @@ const navigatePost = (post_class_name)=>{
 const isChecked = ref(false);
 const offset = ref(0);
 const signOuter = ref(null);
-console.log(signOuter);
 
 const switchSign = ()=>{
   if(signOuter.value){

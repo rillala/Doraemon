@@ -1,0 +1,21 @@
+//斷點變數
+$sm: 576px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1200px;
+$xxl: 1466px;
+
+.container {
+    --column-gap: 10px;
+    max-width: $xxl;
+    margin: auto;
+    padding-left: var(--column-gap);
+    padding-right: var(--column-gap);
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: calc(var(--column-gap) * -1);
+    margin-right: calc(var(--column-gap) * -1);
+}
