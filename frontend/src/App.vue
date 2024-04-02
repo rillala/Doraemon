@@ -7,7 +7,7 @@ import MainHeader from "./components/MainHeader.vue";
 // 判斷是前台還是後臺, 後台的話不顯示nav
 // 使用 useRoute 鉤子來獲取當前路由信息
 const route = useRoute();
-const excludedRoutes = ["/admin", "/manage"];
+const excludedRoutes = ["/admin", "/manage", "/"];
 
 const isActive = computed(() => !excludedRoutes.includes(route.path));
 
