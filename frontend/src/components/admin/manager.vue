@@ -1,5 +1,5 @@
 <script setup>
-import { Input, Table, Descriptions } from "ant-design-vue";
+import { Input, Table, Descriptions, Button } from "ant-design-vue";
 import { EyeOutlined, CloseOutlined } from "@ant-design/icons-vue";
 import { ref, onMounted, watch } from "vue";
 import apiInstance from "@/plugins/auth";
@@ -102,6 +102,28 @@ function showInfo(currentId) {
   }
 }
 
+function changeStatue(currentId) {
+  let currentIndex = parseInt(currentId) - 1;
+  if (confirm(`確定要更改${managerList.value[currentIndex].name}的狀態?`)) {
+    console.log(currentId);
+
+    //這邊先假的修改
+    let currentStatue = managerList.value[currentIndex].status;
+    let newStatue;
+
+    if (currentStatue == 0) {
+      newStatue = 1;
+    } else {
+      newStatue = 0;
+    }
+    managerList.value[currentIndex].status = newStatue;
+
+    //修改管理員狀態, 這邊之後記得接資料庫
+    displayList.value = managerList.value;
+    showInfo(currentId);
+  }
+}
+
 // 元件初始的時候執行
 onMounted(() => {
   // getManager();
@@ -119,52 +141,45 @@ onMounted(() => {
       @search="onSearch"
     />
 
-    <div id="manager-box">
-      <div id="manager-table">
-        <Table :columns="columns" :data-source="displayList">
-          <!-- 狀態列 -->
-          <template v-slot:status="{ text }">
-            <span>{{ text == 0 ? "啟用" : "關閉" }}</span>
-          </template>
-          <!-- 查看列 -->
-          <template v-slot:action="{ record }">
-            <EyeOutlined @click="showInfo(record.id)" />
-          </template>
-        </Table>
-      </div>
-      <!--查看燈箱-->
-      <div id="manager-info-box" v-if="showInfoBox">
-        <CloseOutlined id="box-closed" @click="showInfoBox = false" />
-        <Descriptions
-          :title="infoBox.name"
-          bordered
-          :column="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
-        >
-          <Descriptions.Item label="編號">{{ infoBox.id }}</Descriptions.Item>
-          <Descriptions.Item label="狀態">{{
-            infoBox.status == 0 ? "啟用" : "停用"
-          }}</Descriptions.Item>
-          <Descriptions.Item label="帳號">{{
-            infoBox.account
-          }}</Descriptions.Item>
-          <Descriptions.Item label="密碼">{{ infoBox.psw }}</Descriptions.Item>
-        </Descriptions>
-      </div>
+    <div id="manager-table" v-if="!showInfoBox">
+      <Table :columns="columns" :data-source="displayList">
+        <!-- 狀態列 -->
+        <template v-slot:status="{ text }">
+          <span>{{ text == 0 ? "啟用" : "停用" }}</span>
+        </template>
+        <!-- 查看列 -->
+        <template v-slot:action="{ record }">
+          <EyeOutlined @click="showInfo(record.id)" />
+        </template>
+      </Table>
+    </div>
+    <!--查看燈箱-->
+    <div id="manager-info-box" v-if="showInfoBox">
+      <CloseOutlined id="box-closed" @click="showInfoBox = false" />
+      <Descriptions
+        :title="infoBox.name"
+        bordered
+        :column="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
+      >
+        <Descriptions.Item label="編號">{{ infoBox.id }}</Descriptions.Item>
+        <Descriptions.Item label="狀態" class="statue-cell"
+          >{{ infoBox.status == 0 ? "啟用" : "停用" }}
+          <Button type="default" @click="changeStatue(infoBox.id)">{{
+            infoBox.status == 0 ? "停用" : "啟用"
+          }}</Button>
+        </Descriptions.Item>
+        <Descriptions.Item label="帳號">{{
+          infoBox.account
+        }}</Descriptions.Item>
+        <Descriptions.Item label="密碼">{{ infoBox.psw }}</Descriptions.Item>
+      </Descriptions>
     </div>
   </main>
 </template>
 
 <style lang="scss" scoped>
-#manager-box {
-  position: relative;
-}
-
 #manager-info-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-
+  position: relative;
   width: 100%;
   padding: 20px;
   background: #fff;
@@ -179,5 +194,12 @@ onMounted(() => {
       background: $bgColorGray;
     }
   }
+}
+
+#status-btn {
+  margin-left: 10px;
+  padding: 5px;
+  background: red;
+  cursor: pointer;
 }
 </style>
