@@ -1,17 +1,23 @@
 
 <template>
   <main>
-    <button class="map-view">
-      <div class="icon-wrap">
-        <img src="/map.svg" alt="map">
+    <div class="wrap">
+      <button class="map-view">
+        <div class="icon-wrap">
+          <img src="/map.svg" alt="map">
+        </div>
+      </button>
+      <div v-for="item in 3">
+        <postCard/>
       </div>
-    </button>
+    </div>
   </main>
 </template>
 
 <script setup>
 import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
+import postCard from "@/components/postCard.vue"  
 
 const route = useRoute();
 const data = route.params.data; // 上面傳遞的參數,可能是a/b/c

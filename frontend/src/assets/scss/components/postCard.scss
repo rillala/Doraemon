@@ -1,0 +1,117 @@
+.card-wrap{
+    width: 100%;
+    padding: 20px;
+    margin: 20px auto 0;
+    background-color: #fff;
+    box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.25), -5px -8px 10px 0px rgba(0, 0, 0, 0.22) inset;
+    @include br-10;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .card-top{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 5px;
+        border-bottom: solid 1px $inputHintColor;
+        span{
+            color:$inputHintColor;
+            align-self: center;
+        }
+        .save-wrap{
+            width: 30px;
+            top: 0;
+            right: 0;
+            img{
+                width: 100%;
+                vertical-align: top;
+            }
+        }
+    }
+    .card-title{
+        width: 100%;
+        display: flex;
+        gap: 20px;
+        h1{
+            align-self: center;
+        }
+        .avatar-wrap{
+            width: 60px;
+            @include br-10;
+            overflow: hidden;
+            img{
+                width: 100%;
+                vertical-align: top;
+            }
+        }
+    }
+    .pic-wrap{
+        width: 100%;
+        @include br-10;
+        overflow: hidden;
+        img{
+            width: 100%;
+            vertical-align: top;
+        }
+    }
+    p{
+        text-align: justify;
+    }
+}
+.card-bottom{
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    input{
+        @include input-shadow;
+        @include br-10;
+        outline: none;
+        border: none;
+        padding: 10px;
+    }
+    .more-comment{
+        align-self: flex-end;
+        color: $inputHintColor;
+    }
+    .comment-other{
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        @include input-shadow;
+        @include br-10;
+        .avatar-wrap{
+            // width: 40px;
+            // height: 40px;
+            //@include br-10;
+            //overflow: hidden;
+            align-self: center;
+            img{
+                width: 100%;
+                vertical-align: top;
+            }
+        }
+        p{
+            text-align: justify;
+        }
+    }
+}
+
+.slide-enter-from{
+    opacity: 0;
+}
+.slide-enter-active{
+    transition: opacity .5s ease;
+}
+.slide-enter-to{
+    opacity: 1;
+}
+.slide-leave-from{
+    opacity: 1;
+}
+.slide-leave-active{
+    transition: opacity .3s ease;
+}
+.slide-leave-to{
+    opacity: 0;
+}
