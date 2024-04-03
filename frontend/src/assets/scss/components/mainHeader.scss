@@ -17,7 +17,6 @@
         left: auto;
         width: auto;
         height: auto;
-        //padding: 10px;
         border: none;
         @include br-10;
         box-shadow: 8px 8px 7px rgba(0, 0, 0, .2);
@@ -26,9 +25,10 @@
     .nav-row {
         display: flex;
         justify-content: space-around;
-
+        padding: 5px 0;
         @media screen and (min-width:768px) {
             flex-direction: column;
+            padding: 0 10px;
         }
 
         .nav-icon {
@@ -37,7 +37,7 @@
 
             .icon-wrap {
                 display: inline-block;
-                width: 60px;
+                width: 50px;
                 height: auto;
                 aspect-ratio: 1/1;
 
