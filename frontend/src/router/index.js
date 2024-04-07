@@ -19,6 +19,14 @@ const router = createRouter({
       props:true,
     },
     {
+      path: "/postmessage",
+      name: "postmessage",
+      meta: {
+        title: "發文 PostMessage",
+      },
+      component: () => import("../views/PostMessageView.vue"),
+    },
+    {
       path: "/game",
       name: "game",
       meta: {

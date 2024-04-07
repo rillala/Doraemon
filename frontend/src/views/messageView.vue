@@ -2,11 +2,11 @@
 <template>
   <main>
     <div class="wrap">
-      <button class="map-view">
+      <!-- <button class="map-view">
         <div class="icon-wrap">
           <img src="/map.svg" alt="map">
         </div>
-      </button>
+      </button> -->
       <div v-for="item in 3">
         <postCard/>
       </div>

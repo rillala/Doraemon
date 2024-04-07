@@ -2,8 +2,9 @@
     <div class="card-wrap">
         <div class="card-top">
             <span class="pcMarkText">#tag</span>
-            <div class="save-wrap">
-                <img src="/unsave.svg" alt="save">
+            <div class="save-wrap" @click="toggleSave">
+                <img src="/unsave.svg" alt="save" v-show="saveStatus == false">
+                <img src="/save.svg" alt="save" v-show="saveStatus == true">
             </div>
         </div>
         <div class="card-title">
@@ -39,6 +40,11 @@ import { ref } from "vue";
 const commentStatus = ref(false)
 const toggleComment = ()=>{
     commentStatus.value = !commentStatus.value
+}
+
+const saveStatus = ref(false)
+const toggleSave = ()=>{
+    saveStatus.value = !saveStatus.value
 }
 
 </script>
