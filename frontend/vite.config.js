@@ -11,21 +11,21 @@ import {
 } from "vite-plugin-style-import";
 
 export default defineConfig({
-  base:
-    process.env.DEPLOY_TARGET === "GITHUB_PAGES"
-      ? "/Doaramon/" // 替換為你的 GitHub 倉庫名
-      : process.env.NODE_ENV === "production"
-      ? "/doaramon/front/"
-      : "/",
+  // base:
+  //   process.env.DEPLOY_TARGET === "GITHUB_PAGES"
+  //     ? "/Doaramon/" // 替換為你的 GitHub 倉庫名
+  //     : process.env.NODE_ENV === "production"
+  //     ? "/doaramon/front/"
+  //     : "/",
   build: {
     outDir: "front",
   },
-  server: {
-    proxy: {
-      // 配置代理，解決跨域問題
-      "/api": "http://localhost:8080",
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     // 配置代理，解決跨域問題
+  //     "/api": "http://localhost:8080",
+  //   },
+  // },
 
   plugins: [
     vue(),
