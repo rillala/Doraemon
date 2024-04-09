@@ -68,17 +68,17 @@
         <div class="sign-outer" ref="signOuter">
           <div class="sign-row" :style="{ transform: `translateX(-${offset}px)` }">
             <div class="signin">
-              <input class="sign-input phMarkText" type="text" placeholder="mail">
-              <input class="sign-input phMarkText" type="text" placeholder="password">
+              <input class="sign-input phMarkText" type="text" placeholder="mail" v-model="userSignin.mail">
+              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="userSignin.password">
               <span class="sign-forget pcMarkText">忘記密碼？</span>
-              <button class="sign-btn phInnerText">登入</button>
+              <button class="sign-btn phInnerText" @click="signin">登入</button>
               <button class="othersign-btn phInnerText">Ｇoogle登入</button>
             </div>
             <div class="signup">
-              <input class="sign-input phMarkText" type="text" placeholder="name">
-              <input class="sign-input phMarkText" type="text" placeholder="mail">
-              <input class="sign-input phMarkText" type="text" placeholder="password">
-              <button class="sign-btn phInnerText">註冊</button>
+              <input class="sign-input phMarkText" type="text" placeholder="name" v-model="signupForm.name">
+              <input class="sign-input phMarkText" type="text" placeholder="mail" v-model="signupForm.mail">
+              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signupForm.password">
+              <button class="sign-btn phInnerText" @click="singup">註冊</button>
               <button class="othersign-btn phInnerText">Ｇoogle註冊</button>
             </div>
           </div>
@@ -92,6 +92,8 @@
 import { ref,onMounted,watch } from "vue";
 import { useRouter } from 'vue-router';
 
+
+//submenu按鈕
 const subMenuStatus = ref({
   message:false,
   member:false
@@ -109,6 +111,7 @@ const navigatePost = (post_class_name)=>{
   router.push({name:'message',params:{post_class_name}})
 };
 
+//登入註冊切換，用carousel的方法寫
 const isChecked = ref(false);
 const offset = ref(0);
 const signOuter = ref(null);
@@ -126,6 +129,56 @@ watch(isChecked, ()=>{
 onMounted(()=>{
   switchSign();
 })
+
+
+
+
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+//composition API中的ref會和firebase中的ref衝突，因此另外給名稱
+import { getDatabase, ref as firebaseRef, set ,update, push ,child} from "firebase/database";
+//使用firebase auth登入, 成功後儲存資料到realtime database
+const auth = getAuth();
+const db = getDatabase();
+//const ref = db.ref('');
+
+const signupForm = ref({
+  name:'',
+  mail:'',
+  password:'',
+})
+const singup = ()=>{
+  createUserWithEmailAndPassword(auth,signupForm.value.mail,signupForm.value.password)
+    .then((userCredential)=>{
+      const user = userCredential.user;
+
+      //寫入資料到realtime database
+      set(firebaseRef(db,'users/' + user.uid),{
+        username:signupForm.value.name,
+        email:signupForm.value.mail,
+      })
+      console.log(user.uid);
+      console.log(signupForm.value);
+    })
+    .catch((error)=>{
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(errorCode,errorMessage);
+    })
+}
+
+
+const userSignin = ref({
+  mail:'',
+  password:''
+});
+const signin = ()=>{
+  // signInWithEmailAndPassword(auth,email,password)
+  // .then((userCredential)=>{
+  //   const user = userCredential.user;
+  //   console.log(user);
+
+  // })
+}
 
 </script>
 
