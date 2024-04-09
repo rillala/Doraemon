@@ -11,6 +11,7 @@ front
 firebase.json
 .firebase
 .firebasec
+firebaseConfig.js
 
 node_modules
 .DS_Store
