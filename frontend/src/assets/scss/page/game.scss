@@ -1,41 +1,163 @@
-.game{
+
+.game-bg{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
     background-color: #FCDB78;
     background-image: url(../image/game/background01.svg);
-    width: 100%;
-  height: 100vh;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  position: relative;
-  .game_logo{
-    width: 24%;
-    height: 13vh;
-    background-color: $primaryColorYellow;
-    color: $bgColorWhite;
-    font-size: 300%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid $bgColorWhite 0.4vw;
-    border-radius:20px;
-    position: absolute;
-    left: 30%;
-    top: 30%;
-  }
-  .game_start{
-    width: 10%;
-    height: 7vh;
-    background-color: $primaryColorBlue;
-    color: $bgColorWhite;
-    font-size: 150%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid $bgColorWhite 0.3vw;
-    border-radius:20px;
-    position: absolute;
-    left: 36%;
-    top: 50%;
-    cursor: pointer;
-  }
+    background-size: contain;
+    background-position:center ;
+    background-repeat: no-repeat;
+    height: 100vh; /* 滿版高度 */
+    @media (max-width: 768px) {
+      
+        width: 400%; /* 電腦版的四分之一大小 */
+      
+    }
+ 
+//初始畫面
+
+    .game-start{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .game-logo{
+        width: 200%;
+        height: 6vw;
+        background-color: $primaryColorYellow;
+        color: $bgColorWhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: 1.5px;
+        border: solid $bgColorWhite 0.3vw;
+        border-radius:20px;
+        margin-bottom: 70%;
+      }
+      .game-go{
+        width: 90%;
+        height: 4vw;
+        background-color: $primaryColorBlue;
+        color: $bgColorWhite;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        letter-spacing: 1.5px;
+        border: solid $bgColorWhite 0.20vw;
+        border-radius:15px;
+        cursor: pointer;
+      }
+    }
+
+    //遊戲規則
+    .game-rule{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      letter-spacing: 1px;
+      width: 30%;
+      height: 18vw;
+      background-color: $primaryColorYellow;
+      color: $bgColorWhite;
+      border: solid $bgColorWhite 0.3vw;
+      border-radius:20px;
+      padding:1% 1.5%;
+     
+      .game-rule-title{
+        letter-spacing: 3px;
+       
+      }
+      .game-rule-content{
+        margin: 5% 0;
+        line-height: 1.5;
+        text-align: left;
+      }
+      .game-button{
+        width: 35%;
+        height: 4vw;
+        background-color: $primaryColorBlue;
+        color: $bgColorWhite;
+        letter-spacing: 1px;
+        border: solid $bgColorWhite 0.20vw;
+        border-radius:15px;
+        cursor: pointer;
+      }
+    }
+
+    .game-content{
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      bottom: 0;
+      left: 4vw;
+   
+      .game-box{
+ 
+        background-color:$mainTextColor;
+        width:7vw;
+        height: 7vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 1vw;
+        
+        .game-box-topic1 {
+        
+      
+    
+         
+        }
+        .game-box-topic2 {
+         
+        }
+        .game-box-topic3 {
+        
+        }
+        .game-box-topic4 {
+         img{
+          width: 2.5vw;
+            height: auto;
+         }
+        }
+        .game-box-topic5 {
+          img{
+            width: 4vw;
+            height: auto;
+           }
+        }
+        .game-box-topic6 {
+          img{
+            width: 4vw;
+            height: auto;
+           }
+        }
+        .game-box-topic7 {
+         
+        }
+        .game-box-topic8 {
+         
+        }
+        .game-box-topic9 {
+          img{
+            width: 2.5vw;
+            height: auto;
+           }
+        }
+        .game-box-topic10 {
+          img{
+            width: 3.5vw;
+            height: auto;
+           }
+        }
+      }
+      #draggable-img {
+        position: absolute;
+        cursor: move;
+      }
+    }
 }
