@@ -45,34 +45,34 @@
     /> -->
 
        <div class="game-box">
-        <div class="game-box-topic1"><img src="@/assets/scss/image/game/pot/pot02.svg" alt=""></div>
+        <div class="game-box-topic1"><img src="../../public/game/pot/pot02.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic2"><img src="@/assets/scss/image/game/seasoning/seasoning12.svg" alt=""></div>
+        <div class="game-box-topic2"><img src="../../public/game/seasoning/seasoning12.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic3"><img src="@/assets/scss/image/game/kitchenware/kitchenware03.svg" alt=""></div>
+        <div class="game-box-topic3"><img src="../../public/game/kitchenware/kitchenware03.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic4"><img src="@/assets/scss/image/game/drink/drink18.svg" alt=""></div>
+        <div class="game-box-topic4"><img src="../../public/game/drink/drink18.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic5"><img src="@/assets/scss/image/game/food/food05.svg" alt=""></div>
+        <div class="game-box-topic5"><img src="../../public/game/food/food05.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic6"><img src="@/assets/scss/image/game/drink/drink19.svg" alt=""></div>
+        <div class="game-box-topic6"><img src="../../public/game/drink/drink19.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic7"><img src="@/assets/scss/image/game/knife/knife03.svg" alt=""></div>
+        <div class="game-box-topic7"><img src="../../public/game/knife/knife03.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic8"><img src="@/assets/scss/image/game/pan/pan02.svg" alt=""></div>
+        <div class="game-box-topic8"><img src="../../public/game/pan/pan02.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic9"><img src="@/assets/scss/image/game/kitchenware/kitchenware02.svg" alt=""></div>
+        <div class="game-box-topic9"><img src="../../public/game/kitchenware/kitchenware02.svg" alt=""></div>
        </div>
        <div class="game-box">
-        <div class="game-box-topic10"><img src="@/assets/scss/image/game/seasoning/seasoning08.svg" alt=""></div>
+        <div class="game-box-topic10"><img src="../../public/game/seasoning/seasoning08.svg" alt=""></div>
        </div>
         </div>
       </div>
@@ -101,9 +101,9 @@ export default {
       //   y: -405  // 將初始 y 座標設置為 
       // }
       images: [
-        { src: 'seasoning/seasoning01', left: 100, top: -400 }, 
-        { src: 'seasoning/seasoning02', left: 200, top: -400 },
-        { src: 'seasoning/seasoning03', left: 300, top: -400 },
+        { src: 'pot/pot02', left: 450, top: -405 }, 
+        { src: 'seasoning/seasoning12', left: 200, top: -400 },
+        { src: 'kitchenware/kitchenware03', left: 300, top: -400 },
         { src: 'seasoning/seasoning04', left: 400, top: -400 },
         { src: 'seasoning/seasoning05', left: 500, top: -400 },
         { src: 'seasoning/seasoning06', left: 600, top: -400 },
@@ -127,8 +127,13 @@ export default {
       this.isContent1 = false;
     },
     getImageUrl(img) {
-      return `@/assets/scss/image/game/${img.src}.svg`;
+      // return `@/assets/scss/image/game/${img.src}.svg`;
+      return `../../public/game/${img.src}.svg`;
     },
+    // getImageUrl(img) {
+    //   return new URL(`../../public/game/${img.src}.svg`, import.meta.url)
+    //     .href;
+    // },
     startDrag(index, event) {
       this.dragging = true;
       this.draggedIndex = index;

@@ -1,22 +1,25 @@
 
 .game-bg{
+
+margin: -8px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 100dvw;
     background-color: #FCDB78;
-    background-image: url(../image/game/background02.svg);
+    background-image: url(../image/game/background01.svg);
     background-size: contain;
     background-position:center ;
     background-repeat: no-repeat;
     height: 100vh; /* 滿版高度 */
     @media (max-width: 768px) {
       
-        width: 400%; /* 電腦版的四分之一大小 */
-      
+        width: 180%; /* 電腦版的四分之一大小 */
+   
     }
+   
  
 //初始畫面
 
@@ -90,14 +93,33 @@
     }
     .game-content-bg{
 
+      margin: -8px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100dvw;
+    background-color: #FCDB78;
+    background-image: url(../image/game/background03.svg);
+    background-size: contain;
+    background-position:center ;
+    background-repeat: no-repeat;
+    height: 100vh; /* 滿版高度 */
+    @media (max-width: 768px) {
       
+        width: 180%; /* 電腦版的四分之一大小 */
+   
+    }
     .game-content{
       position: absolute;
       display: flex;
       flex-direction: row;
-      bottom: 2.4vw;
+      bottom:1.9vw;
       left: 4vw;
-      
+      .image-container{
+        position: absolute;
+      }
    
       .game-box{
  
