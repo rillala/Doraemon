@@ -9,14 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@splinetool/runtime": "^1.0.93",
+    "@splinetool/viewer": "^1.0.91",
     "ant-design-vue": "^4.0.0-rc.6",
     "axios": "^1.6.8",
     "consola": "^3.2.3",
+    "gsap": "^3.12.5",
     "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "sass": "^1.72.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-spline": "^0.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
