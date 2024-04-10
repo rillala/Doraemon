@@ -31,7 +31,7 @@
         </li>
         <li class="nav-icon">
           <RouterLink to="/game">
-            <div class="icon-wrap"><img src="/toliet.svg" alt="message"></div>
+            <div class="icon-wrap"><img src="/kitchen.svg" alt="message"></div>
           </RouterLink>
         </li>
         <li class="nav-icon" @click="toggleSignModal()"  v-show="!isSignin">
