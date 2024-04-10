@@ -20,8 +20,16 @@
     </div>
     <div v-else>
       <!-- 遊戲進行畫面 -->
+      <div class="game-content-bg">
       <div class="game-content">
-        <img
+        <div class="image-container">
+  <img v-for="(image, index) in images" 
+       :src="getImageUrl(image)" 
+       :key="index" 
+       :style="{top: image.top + 'px', left: image.left + 'px', position: 'absolute'}" 
+       @mousedown="startDrag(index, $event)">
+</div>
+        <!-- <img
       id="draggable-img"
       :style="{left: imagePosition.x + 'px', top: imagePosition.y + 'px'}"
       src="@/assets/scss/image/game/seasoning/seasoning08.svg"
@@ -34,7 +42,7 @@
       src="@/assets/scss/image/game/seasoning/seasoning07.svg"
       alt="可拖曳的圖片"
       @mousedown="startDrag"
-    />
+    /> -->
 
        <div class="game-box">
         <div class="game-box-topic1"><img src="@/assets/scss/image/game/pot/pot02.svg" alt=""></div>
@@ -66,14 +74,14 @@
        <div class="game-box">
         <div class="game-box-topic10"><img src="@/assets/scss/image/game/seasoning/seasoning08.svg" alt=""></div>
        </div>
-        
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import { throttle } from 'lodash';
+
 export default {
   data() {
     return {
@@ -81,22 +89,35 @@ export default {
       isGameStarted: false, // 遊戲是否已經開始的狀態
 
       //拖曳圖片
+      // dragging: false,
+      // startX: 0,
+      // startY: 0,
+      // imagePosition: {
+      //   x: 610, // 將初始 x 座標設置為
+      //   y: -415  // 將初始 y 座標設置為 
+      // },
+      // imagePosition1: {
+      //   x: 590, // 將初始 x 座標設置為 
+      //   y: -405  // 將初始 y 座標設置為 
+      // }
+      images: [
+        { src: 'seasoning/seasoning01', left: 100, top: -400 }, 
+        { src: 'seasoning/seasoning02', left: 200, top: -400 },
+        { src: 'seasoning/seasoning03', left: 300, top: -400 },
+        { src: 'seasoning/seasoning04', left: 400, top: -400 },
+        { src: 'seasoning/seasoning05', left: 500, top: -400 },
+        { src: 'seasoning/seasoning06', left: 600, top: -400 },
+        { src: 'seasoning/seasoning07', left: 700, top: -400 },
+        { src: 'seasoning/seasoning08', left: 800, top: -400 },
+        { src: 'seasoning/seasoning09', left: 900, top: -400 },
+        { src: 'seasoning/seasoning10', left: 1000, top: -400 },
+      ], 
       dragging: false,
-      startX: 0,
-      startY: 0,
-      imagePosition: {
-        x: 810, // 將初始 x 座標設置為 100
-        y: -515  // 將初始 y 座標設置為 100
-      },
-      imagePosition1: {
-        x: 790, // 將初始 x 座標設置為 100
-        y: -505  // 將初始 y 座標設置為 100
-      }
+      offsetX: 0,
+      offsetY: 0,
+      draggedIndex: -1
+
     };
-  },
-  mounted() {
-    document.addEventListener('mousemove', this.drag);
-    document.addEventListener('mouseup', this.endDrag);
   },
   methods: {
     GameStart() {
@@ -105,40 +126,29 @@ export default {
     showGameRules() {
       this.isContent1 = false;
     },
-    startDrag(event) {
+    getImageUrl(img) {
+      return `@/assets/scss/image/game/${img.src}.svg`;
+    },
+    startDrag(index, event) {
       this.dragging = true;
-      this.startX = event.clientX - this.imagePosition.x;
-      this.startY = event.clientY - this.imagePosition.y;
-      requestAnimationFrame(this.animate);
+      this.draggedIndex = index;
+      this.offsetX = event.clientX - this.images[index].left;
+      this.offsetY = event.clientY - this.images[index].top;
+      window.addEventListener('mousemove', this.drag);
+      window.addEventListener('mouseup', this.stopDrag);
     },
-    endDrag() {
+    drag(event) {
+      if (this.dragging && this.draggedIndex !== -1) {
+        this.images[this.draggedIndex].left = event.clientX - this.offsetX;
+        this.images[this.draggedIndex].top = event.clientY - this.offsetY;
+      }
+    },
+    stopDrag() {
       this.dragging = false;
-    },
-    drag: throttle(function(event) {
-      if (this.dragging) {
-        const offsetX = event.clientX - this.startX;
-        const offsetY = event.clientY - this.startY;
-        this.imagePosition = {
-          x: offsetX,
-          y: offsetY
-        };
-      }
-    }, 1000 / 60), // 限制拖曳事件的觸發頻率為每秒 60 次
-    animate() {
-      if (this.dragging) {
-        requestAnimationFrame(this.animate);
-        const offsetX = event.clientX - this.startX;
-        const offsetY = event.clientY - this.startY;
-        this.imagePosition = {
-          x: offsetX,
-          y: offsetY
-        };
-      }
+      this.draggedIndex = -1;
+      window.removeEventListener('mousemove', this.drag);
+      window.removeEventListener('mouseup', this.stopDrag);
     }
-  },
-  beforeDestroy() {
-    document.removeEventListener('mousemove', this.drag);
-    document.removeEventListener('mouseup', this.endDrag);
   }
 };
 </script>
