@@ -1,5 +1,7 @@
+import { ref } from 'vue';
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +18,7 @@ const router = createRouter({
         title: "留言板 Message",
       },
       component: () => import("../views/messageView.vue"),
-      props:true,
+      props: true,
     },
     {
       path: "/postmessage",
@@ -37,14 +39,15 @@ const router = createRouter({
 
     // 以下前台頁面需要登入後才能前往
     {
-      path: "/member",
+      path: "/member/:content",
       name: "member",
       meta: {
         title: "會員中心 Member Center",
         // 需要給予權限
-        // requiresAuth: true,
+        requiresAuth: true,
       },
       component: () => import("../views/memberView.vue"),
+      // props:(route)=>({componentShow:route.query.componentShow})
     },
     {
       path: "/count",
@@ -97,13 +100,27 @@ const router = createRouter({
   },
 });
 
-// 以下是驗證前台是否登入的授權, 這部分後續要再依這個專案的設定去寫
-router.beforeEach((to, from, next) => {
-  // 首先檢查是否需要管理員授權訪問
-  if (to.matched.some((record) => record.meta.requiresAdminAuth)) {
+
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    // console.log("Setting up Firebase Auth");
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      // console.log('Auth state changed', firebaseUser);
+      // user.value = firebaseUser; // 更新用戶狀態
+      unsubscribe();
+      resolve(firebaseUser);
+    }, reject);
+  })
+}
+
+router.beforeEach(async (to, from, next) => {
+  const requiresAdminAuth = to.matched.some(record => record.meta.requiresAdminAuth);
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAdminAuth) {
     // 需要管理員授權
-    // 這裡添加您的管理員驗證邏輯，例如檢查特定的Admin Token
     if (localStorage.getItem("adminToken")) {
+      // 這裡添加您的管理員驗證邏輯，例如檢查特定的Admin Token
       // 管理員Token存在，允許訪問
       next();
     } else {
@@ -111,20 +128,25 @@ router.beforeEach((to, from, next) => {
       alert("請先以管理員身份登錄！");
       next({ name: "adminLogin" });
     }
-  } else if (to.matched.some((record) => record.meta.requiresAuth)) {
+  } else if (requiresAuth) {
     // 需要普通用戶授權
-    if (localStorage.getItem("token")) {
-      // 普通用戶Token存在，允許訪問
-      next();
-    } else {
-      // 普通用戶Token不存在，彈出提示並跳轉到首頁
-      alert("請先登錄！");
-      next({ name: "home" });
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        // 用戶存在，允許訪問
+        next();
+      } else {
+        // 用戶不存在，彈出提示並跳轉到首頁
+        alert("請先登錄！");
+        next({ name: "home" });
+      }
+    } catch (error) {
+      console.error("Auth error:", error)
     }
   } else {
     // 不需要任何授權，直接放行
     next();
   }
-});
+})
 
 export default router;

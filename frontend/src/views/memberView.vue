@@ -10,7 +10,7 @@
 <script setup>
   import memberInfo from "@/components/memberInfo.vue"  
   import postCard from "@/components/postCard.vue"  
-
+  
 
 </script>
 <style lang="scss" scoped>
