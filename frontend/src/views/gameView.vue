@@ -29,20 +29,7 @@
        :style="{top: image.top + 'px', left: image.left + 'px', position: 'absolute'}" 
        @mousedown="startDrag(index, $event)">
 </div>
-        <!-- <img
-      id="draggable-img"
-      :style="{left: imagePosition.x + 'px', top: imagePosition.y + 'px'}"
-      src="@/assets/scss/image/game/seasoning/seasoning08.svg"
-      alt="可拖曳的圖片"
-      @mousedown="startDrag"
-    />
-    <img
-      id="draggable-img"
-      :style="{left: imagePosition1.x + 'px', top: imagePosition1.y + 'px'}"
-      src="@/assets/scss/image/game/seasoning/seasoning07.svg"
-      alt="可拖曳的圖片"
-      @mousedown="startDrag"
-    /> -->
+       
 
        <div class="game-box">
         <div class="game-box-topic1"><img src="../../public/game/pot/pot02.svg" alt=""></div>
@@ -104,13 +91,13 @@ export default {
         { src: 'pot/pot02', left: 450, top: -405 }, 
         { src: 'seasoning/seasoning12', left: 200, top: -400 },
         { src: 'kitchenware/kitchenware03', left: 300, top: -400 },
-        { src: 'seasoning/seasoning04', left: 400, top: -400 },
-        { src: 'seasoning/seasoning05', left: 500, top: -400 },
-        { src: 'seasoning/seasoning06', left: 600, top: -400 },
-        { src: 'seasoning/seasoning07', left: 700, top: -400 },
-        { src: 'seasoning/seasoning08', left: 800, top: -400 },
-        { src: 'seasoning/seasoning09', left: 900, top: -400 },
-        { src: 'seasoning/seasoning10', left: 1000, top: -400 },
+        { src: 'knife/knife03', left: 400, top: -400 },
+        { src: 'kitchenware/kitchenware02', left: 500, top: -400 },
+        { src: 'food/food05', left: 600, top: -400 },
+        { src: 'seasoning/seasoning08', left: 700, top: -400 },
+        { src: 'board/board02', left: 800, top: -400 },
+        { src: 'drink/drink19', left: 900, top: -400 },
+        { src: 'seasoning/seasoning12', left: 1000, top: -400 },
       ], 
       dragging: false,
       offsetX: 0,
