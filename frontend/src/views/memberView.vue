@@ -1,15 +1,15 @@
 <template>
   <main>
-    <div class="wrap">
-      <memberInfo />
-      <postCard />
+    <div class="wrap" >
+      <RouterView></RouterView>
     </div>
   </main>
 </template>
 
 <script setup>
-import memberInfo from "@/components/memberInfo.vue";
-import postCard from "@/components/postCard.vue";
+  import { RouterView } from 'vue-router';
+
+
 </script>
 <style lang="scss" scoped>
 main {

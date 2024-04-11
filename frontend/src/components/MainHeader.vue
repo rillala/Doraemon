@@ -40,13 +40,13 @@
         <li class="nav-icon" @click="toggleSubMenu('member')"  v-show="isSignin">
           <ul class="submenu-wrap" v-show="subMenuStatus.member">
             <li>
-              <button class="submenu-btn phMarkText" @click="navigateMember('profile')">資料</button>
+              <RouterLink to="/member/info" class="submenu-btn phMarkText">資料</RouterLink>
             </li>
             <li>
-              <button class="submenu-btn phMarkText" @click="navigateMember('post')">發文</button>
+              <RouterLink to="/member/post" class="submenu-btn phMarkText">發文</RouterLink>
             </li>
             <li>
-              <button class="submenu-btn phMarkText" @click="navigateMember('save')">收藏</button>
+              <RouterLink to="/member/save" class="submenu-btn phMarkText">收藏</RouterLink>
             </li>
             <li>
               <button class="submenu-btn phMarkText" @click="signout()">登出</button>
@@ -110,9 +110,6 @@ const toggleSignModal = ()=>{
 const router = useRouter();
 const navigatePost = (post_class_name)=>{
   router.push({name:'message',params:{post_class_name}})
-};
-const navigateMember = (content) => {
-  router.push({ name: 'member', params: { content } });
 };
 
 //登入註冊切換，用carousel的方法寫

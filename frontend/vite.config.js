@@ -64,4 +64,7 @@ export default defineConfig({
       },
     },
   },
+  //   server:{
+  //   host:'100.75.8.167'
+  // }
 });

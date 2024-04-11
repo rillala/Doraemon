@@ -34,6 +34,7 @@
 }
 @mixin input-shadow{
   box-shadow: inset 5px 5px 5px rgba(0,0,0, .2), 5px 5px 5px rgba(0,0,0, .2);
+  -webkit-appearance: none;
 }
 @mixin br-10{
   border-radius: 10px;
