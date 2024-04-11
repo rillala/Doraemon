@@ -1,135 +1,223 @@
 <script setup>
-import { Button } from "ant-design-vue";
 import { ref, onMounted, onUnmounted } from "vue";
-import { db } from "@/firebaseConfig";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  query,
-  updateDoc,
-  doc,
-  deleteDoc,
-} from "firebase/firestore";
+import { useRouter } from "vue-router";
 
-// ------示範如何讀取 firestore 裡的數據
+const router = useRouter();
 
-const documents = ref([]);
-let getData;
-
-onMounted(async () => {
+onMounted(() => {
   //組件掛載完成時
-  const lastestQuery = query(collection(db, "test"));
-
-  getData = onSnapshot(lastestQuery, (snapshot) => {
-    //監聽即時資料更新
-    documents.value = snapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-  });
+  setTimeout(() => {
+    console.log(123);
+  }, 3000);
 });
-
-onUnmounted(() => {
-  //組件被銷毀時
-  if (getData) {
-    getData(); // 停止監聽資料
-  }
-});
-
-// ------示範如何新增數據到 firestore
-
-const dataToAdd = ref({
-  title: "",
-  info: "",
-}); // 輸入框的值
-
-const addData = async () => {
-  if (!dataToAdd.value) {
-    // 確認有輸入值，若為空白則不執行
-    return;
-  }
-  try {
-    const docRef = await addDoc(collection(db, "test"), dataToAdd.value);
-    console.log("Document written with ID: ", docRef.id); // 送出後會再回傳一個id值
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  } finally {
-    dataToAdd.value = { title: "", info: "" };
-  }
-};
-
-// ------示範如何更新 firestore 中的數據
-
-const updateId = ref(""); // 需要更新的文档ID
-const updatedData = ref({
-  title: "",
-  info: "",
-});
-
-const updateData = async () => {
-  try {
-    await updateDoc(doc(db, "test", updateId.value), updatedData.value);
-  } catch (err) {
-    console.error("Error: ", err);
-  }
-};
-
-// ------示範如何刪除 firestore 裡的數據
-// *這是刪除某個集合的document文件
-// deleteDoc(doc(db, "collection 的名稱", "document 的名稱"))
-// *這是刪除某個集合的document文件中的欄位
-// updateDoc(doc(db, 'collection 的名稱', 'document 的名稱'), {
-//   要刪除的欄位名稱: deleteField()
-// });
-
-const dataToDelete = ref(""); // 需要删除的文档ID
-
-const deleteData = async () => {
-  try {
-    await deleteDoc(doc(db, "test", dataToDelete.value));
-  } catch (err) {
-    console.error("Error: ", err);
-  }
-};
 </script>
 
 <template>
   <main>
-    <Button type="primary">按鈕</Button>
-    <div v-for="data in documents">
-      <br />
-      <p>id: {{ data.id }}</p>
-      <p>title: {{ data.title }}</p>
-      <p>info: {{ data.info }}</p>
-      <br />
+    <div class="container">
+      <p class="pcSmTitle">啊啊啊啊！這裡是靜香的浴室！還不趕快離開！</p>
+      <div class="🤚">
+        <div class="👉"></div>
+        <div class="👉"></div>
+        <div class="👉"></div>
+        <div class="👉"></div>
+        <div class="🌴"></div>
+        <div class="👍"></div>
+      </div>
     </div>
-    <br />
 
-    <button @click="addData">Add Data</button>
-    <span>title:</span>
-    <input type="text" name="title" v-model="dataToAdd.title" />
-    <span>info:</span>
-    <input type="text" name="info" v-model="dataToAdd.info" />
-    <br />
-
-    <button @click="updateData">Update Data</button>
-    <span>update id:</span>
-    <input type="text" name="update-id" v-model="updateId" />
-    <span>title:</span>
-    <input type="text" name="update-title" v-model="updatedData.title" />
-    <span>info:</span>
-    <input type="text" name="update-info" v-model="updatedData.info" />
-    <br />
-
-    <button @click="deleteData">Delete Data</button>
-    <span>delete Id:</span>
-    <input type="text" name="deleteId" v-model="dataToDelete" />
+    <!--credit to https://uiverse.io/Pradeepsaranbishnoi/tall-fish-38 -->
   </main>
 </template>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/page/notFound.scss";
+.pcSmTitle {
+  color: $primaryColorNavy;
+}
+
+.container {
+  position: relative;
+  z-index: 5;
+  width: 100svw;
+  height: 100svh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  --color: #faa7d8;
+  background: linear-gradient(45deg, var(--color) 25%, transparent 25%) -50px 0,
+    linear-gradient(-45deg, var(--color) 25%, transparent 25%) -50px 0,
+    linear-gradient(45deg, transparent 75%, var(--color) 75%) -50px 0,
+    linear-gradient(-45deg, transparent 75%, var(--color) 75%) -50px 0;
+  background-color: #e5e5f7;
+  background-size: 10px 40px;
+}
+
+.🤚 {
+  --skin-color: #e4c560;
+  --tap-speed: 0.6s;
+  --tap-stagger: 0.1s;
+  position: relative;
+  width: 80px;
+  height: 60px;
+  margin-left: 80px;
+}
+
+.🤚:before {
+  content: "";
+  display: block;
+  width: 180%;
+  height: 75%;
+  position: absolute;
+  top: 70%;
+  right: 20%;
+  background-color: black;
+  border-radius: 40px 10px;
+  filter: blur(10px);
+  opacity: 0.3;
+}
+
+.🌴 {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--skin-color);
+  border-radius: 10px 40px;
+}
+
+.👍 {
+  position: absolute;
+  width: 120%;
+  height: 38px;
+  background-color: var(--skin-color);
+  bottom: -18%;
+  right: 1%;
+  transform-origin: calc(100% - 20px) 20px;
+  transform: rotate(-20deg);
+  border-radius: 30px 20px 20px 10px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.👍:after {
+  width: 20%;
+  height: 60%;
+  content: "";
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  bottom: -8%;
+  left: 5px;
+  border-radius: 60% 10% 10% 30%;
+  border-right: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.👉 {
+  position: absolute;
+  width: 80%;
+  height: 35px;
+  background-color: var(--skin-color);
+  bottom: 32%;
+  right: 64%;
+  transform-origin: 100% 20px;
+  animation-duration: calc(var(--tap-speed) * 2);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform: rotate(10deg);
+}
+
+.👉:before {
+  content: "";
+  position: absolute;
+  width: 140%;
+  height: 30px;
+  background-color: var(--skin-color);
+  bottom: 8%;
+  right: 65%;
+  transform-origin: calc(100% - 20px) 20px;
+  transform: rotate(-60deg);
+  border-radius: 20px;
+}
+
+.👉:nth-child(1) {
+  animation-delay: 0;
+  filter: brightness(70%);
+  animation-name: tap-upper-1;
+}
+
+.👉:nth-child(2) {
+  animation-delay: var(--tap-stagger);
+  filter: brightness(80%);
+  animation-name: tap-upper-2;
+}
+
+.👉:nth-child(3) {
+  animation-delay: calc(var(--tap-stagger) * 2);
+  filter: brightness(90%);
+  animation-name: tap-upper-3;
+}
+
+.👉:nth-child(4) {
+  animation-delay: calc(var(--tap-stagger) * 3);
+  filter: brightness(100%);
+  animation-name: tap-upper-4;
+}
+
+@keyframes tap-upper-1 {
+  0%,
+  50%,
+  100% {
+    transform: rotate(10deg) scale(0.4);
+  }
+
+  40% {
+    transform: rotate(50deg) scale(0.4);
+  }
+}
+
+@keyframes tap-upper-2 {
+  0%,
+  50%,
+  100% {
+    transform: rotate(10deg) scale(0.6);
+  }
+
+  40% {
+    transform: rotate(50deg) scale(0.6);
+  }
+}
+
+@keyframes tap-upper-3 {
+  0%,
+  50%,
+  100% {
+    transform: rotate(10deg) scale(0.8);
+  }
+
+  40% {
+    transform: rotate(50deg) scale(0.8);
+  }
+}
+
+@keyframes tap-upper-4 {
+  0%,
+  50%,
+  100% {
+    transform: rotate(10deg) scale(1);
+  }
+
+  40% {
+    transform: rotate(50deg) scale(1);
+  }
+}
 </style>
