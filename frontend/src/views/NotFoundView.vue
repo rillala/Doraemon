@@ -7,7 +7,7 @@ const router = useRouter();
 onMounted(() => {
   //組件掛載完成時
   setTimeout(() => {
-    console.log(123);
+    router.push("/");
   }, 3000);
 });
 </script>
