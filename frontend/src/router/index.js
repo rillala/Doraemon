@@ -39,7 +39,7 @@ const router = createRouter({
 
     // 以下前台頁面需要登入後才能前往
     {
-      path: "/member/:content",
+      path: "/member",
       name: "member",
       meta: {
         title: "會員中心 Member Center",
@@ -47,7 +47,12 @@ const router = createRouter({
         requiresAuth: true,
       },
       component: () => import("../views/memberView.vue"),
-      // props:(route)=>({componentShow:route.query.componentShow})
+      children:[
+        { path: '', redirect: { name: 'memberInfo' } },
+        { path: 'info', name: 'memberInfo', component: () => import('@/components/memberInfo.vue') },
+        { path: 'post', name: 'memberPost', component: () => import('@/components/memberPost.vue') },
+        { path: 'save', name: 'memberSave', component: () => import('@/components/memberSave.vue') },
+      ]
     },
     {
       path: "/count",
