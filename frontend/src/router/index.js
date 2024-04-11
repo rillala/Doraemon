@@ -47,12 +47,24 @@ const router = createRouter({
         requiresAuth: true,
       },
       component: () => import("../views/memberView.vue"),
-      children:[
-        { path: '', redirect: { name: 'memberInfo' } },
-        { path: 'info', name: 'memberInfo', component: () => import('@/components/memberInfo.vue') },
-        { path: 'post', name: 'memberPost', component: () => import('@/components/memberPost.vue') },
-        { path: 'save', name: 'memberSave', component: () => import('@/components/memberSave.vue') },
-      ]
+      children: [
+        { path: "", redirect: { name: "memberInfo" } },
+        {
+          path: "info",
+          name: "memberInfo",
+          component: () => import("@/components/memberInfo.vue"),
+        },
+        {
+          path: "post",
+          name: "memberPost",
+          component: () => import("@/components/memberPost.vue"),
+        },
+        {
+          path: "save",
+          name: "memberSave",
+          component: () => import("@/components/memberSave.vue"),
+        },
+      ],
     },
     {
       path: "/count",
@@ -63,6 +75,14 @@ const router = createRouter({
         // requiresAuth: true,
       },
       component: () => import("../views/countView.vue"),
+    },
+    {
+      path: "/crud",
+      name: "crud",
+      meta: {
+        title: "CRUD 參考",
+      },
+      component: () => import("../views/crudView.vue"),
     },
 
     //以下後臺頁面
