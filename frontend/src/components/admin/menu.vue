@@ -24,6 +24,14 @@ function changeManage(index) {
   emit("updateView", index);
   openKeys.value = [];
 }
+
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+function adminLogOut() {
+  sessionStorage.removeItem("admin");
+  router.push("/admin");
+}
 </script>
 
 <template>
@@ -38,6 +46,7 @@ function changeManage(index) {
           class="pcInnerText"
           >{{ page.menuTitle }}</Menu.Item
         >
+        <Menu.Item class="pcInnerText" @click="adminLogOut">登出</Menu.Item>
       </Menu.SubMenu>
     </Menu>
   </main>
