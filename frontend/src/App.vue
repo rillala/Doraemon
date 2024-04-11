@@ -47,8 +47,12 @@ onMounted(() => {
 <style lang="scss">
 // 避免被 nav 蓋掉所以增加下面
 #add_margin {
-  width: 100%;
+  // width: 100%;
   height: 60px;
+
+  @include tablet {
+    display: none;
+  }
 }
 body {
   margin: 0;
