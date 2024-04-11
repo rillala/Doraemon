@@ -28,7 +28,7 @@ import {
 main {
   width: 100svw;
   height: 100svh;
-  margin: -8px;
+  // margin: -8px;
   background: $primaryColorBrown;
   background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
 }

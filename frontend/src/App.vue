@@ -39,13 +39,18 @@ onMounted(() => {
 
 <template>
   <MainHeader v-if="isActive" />
-  <div v-if="isLoading" id="app-loading"><loading /></div>
-  <RouterView id="main-view-app" />
+  <div v-if="isLoading"><loading /></div>
+  <RouterView />
+  <div v-if="isActive" id="add_margin"></div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 // 避免被 nav 蓋掉所以增加下面
-#main-view-app {
-  margin-bottom: 80px;
+#add_margin {
+  width: 100%;
+  height: 60px;
+}
+body {
+  margin: 0;
 }
 </style>

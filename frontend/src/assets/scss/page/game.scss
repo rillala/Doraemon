@@ -1,201 +1,187 @@
-
-.game-bg{
-
-margin: -8px;
+.game-bg {
+  // margin: -8px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100dvw;
-    background-color: #FCDB78;
-    background-image: url(../image/game/background01.svg);
-    background-size: contain;
-    background-position:center ;
-    background-repeat: no-repeat;
-    height: 100vh; /* 滿版高度 */
-    @media (max-width: 768px) {
-      
-        width: 180%; /* 電腦版的四分之一大小 */
-   
-    }
-   
- 
-//初始畫面
+  background-color: #fcdb78;
+  background-image: url(../image/game/background01.svg);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* 滿版高度 */
+  @media (max-width: 768px) {
+    width: 180%; /* 電腦版的四分之一大小 */
+  }
 
-    .game-start{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      .game-logo{
-        width: 200%;
-        height: 6vw;
-        background-color: $primaryColorYellow;
-        color: $bgColorWhite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        letter-spacing: 1.5px;
-        border: solid $bgColorWhite 0.3vw;
-        border-radius:20px;
-        margin-bottom: 70%;
-      }
-      .game-go{
-        width: 90%;
-        height: 4vw;
-        background-color: $primaryColorBlue;
-        color: $bgColorWhite;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        letter-spacing: 1.5px;
-        border: solid $bgColorWhite 0.20vw;
-        border-radius:15px;
-        cursor: pointer;
-      }
-    }
+  //初始畫面
 
-    //遊戲規則
-    .game-rule{
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      letter-spacing: 1px;
-      width: 30%;
-      height: 22vw;
+  .game-start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .game-logo {
+      width: 200%;
+      height: 6vw;
       background-color: $primaryColorYellow;
       color: $bgColorWhite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      letter-spacing: 1.5px;
       border: solid $bgColorWhite 0.3vw;
-      border-radius:20px;
-      padding:1% 1.5%;
-     
-      .game-rule-title{
-        letter-spacing: 3px;
-       
-      }
-      .game-rule-content{
-        margin: 5% 0;
-        line-height: 1.5;
-        text-align: left;
-      }
-      .game-button{
-        width: 35%;
-        height: 4vw;
-        background-color: $primaryColorBlue;
-        color: $bgColorWhite;
-        letter-spacing: 1px;
-        border: solid $bgColorWhite 0.20vw;
-        border-radius:15px;
-        cursor: pointer;
-      }
+      border-radius: 20px;
+      margin-bottom: 70%;
     }
-    .game-content-bg{
+    .game-go {
+      width: 90%;
+      height: 4vw;
+      background-color: $primaryColorBlue;
+      color: $bgColorWhite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      letter-spacing: 1.5px;
+      border: solid $bgColorWhite 0.2vw;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+  }
 
-      margin: -8px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100dvw;
-    background-color: #FCDB78;
+  //遊戲規則
+  .game-rule {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    letter-spacing: 1px;
+    width: 30%;
+    height: 22vw;
+    background-color: $primaryColorYellow;
+    color: $bgColorWhite;
+    border: solid $bgColorWhite 0.3vw;
+    border-radius: 20px;
+    padding: 1% 1.5%;
+
+    .game-rule-title {
+      letter-spacing: 3px;
+    }
+    .game-rule-content {
+      margin: 5% 0;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .game-button {
+      width: 35%;
+      height: 4vw;
+      background-color: $primaryColorBlue;
+      color: $bgColorWhite;
+      letter-spacing: 1px;
+      border: solid $bgColorWhite 0.2vw;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+  }
+  .game-content-bg {
+    // margin: -8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100dvw;
+    background-color: #fcdb78;
     background-image: url(../image/game/background03.svg);
     background-size: contain;
-    background-position:center ;
+    background-position: center;
     background-repeat: no-repeat;
     height: 100vh; /* 滿版高度 */
     @media (max-width: 768px) {
-      
-        width: 180%; /* 電腦版的四分之一大小 */
-   
+      width: 180%; /* 電腦版的四分之一大小 */
     }
-    .game-content{
+    .game-content {
       position: absolute;
       display: flex;
       flex-direction: row;
-      bottom:1.9vw;
+      bottom: 1.9vw;
       left: 4vw;
-      .image-container{
+      .image-container {
         position: absolute;
       }
-   
-      .game-box{
- 
-        background-color:$mainTextColor;
-        width:7vw;
+
+      .game-box {
+        background-color: $mainTextColor;
+        width: 7vw;
         height: 7vw;
         display: flex;
         justify-content: center;
         align-items: center;
         margin: 1vw;
-        
+
         .game-box-topic1 {
-        
-          img{
+          img {
             width: 5.5vw;
-              height: auto;
-           }
-    
-         
+            height: auto;
+          }
         }
         .game-box-topic2 {
-          img{
+          img {
             width: 2.5vw;
-              height: auto;
-           }
+            height: auto;
+          }
         }
         .game-box-topic3 {
-          img{
+          img {
             width: 1.5vw;
-              height: auto;
-           }
+            height: auto;
+          }
         }
         .game-box-topic4 {
-         img{
-          width: 2.5vw;
-            height: auto;
-         }
-        }
-        .game-box-topic5 {
-          img{
-            width: 4vw;
-            height: auto;
-           }
-        }
-        .game-box-topic6 {
-          img{
-            width: 4vw;
-            height: auto;
-           }
-        }
-        .game-box-topic7 {
-          img{
-            width: 6vw;
-            height: auto;
-           }
-        }
-        .game-box-topic8 {
-          img{
-            width: 3.5vw;
-            height: auto;
-           }
-        }
-        .game-box-topic9 {
-          img{
+          img {
             width: 2.5vw;
             height: auto;
-           }
+          }
         }
-        .game-box-topic10 {
-          img{
+        .game-box-topic5 {
+          img {
+            width: 4vw;
+            height: auto;
+          }
+        }
+        .game-box-topic6 {
+          img {
+            width: 4vw;
+            height: auto;
+          }
+        }
+        .game-box-topic7 {
+          img {
+            width: 6vw;
+            height: auto;
+          }
+        }
+        .game-box-topic8 {
+          img {
             width: 3.5vw;
             height: auto;
-           }
+          }
+        }
+        .game-box-topic9 {
+          img {
+            width: 2.5vw;
+            height: auto;
+          }
+        }
+        .game-box-topic10 {
+          img {
+            width: 3.5vw;
+            height: auto;
+          }
         }
       }
-    
     }
   }
 }

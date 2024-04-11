@@ -17,7 +17,7 @@
 .container {
   width: 100svw;
   height: 100svh;
-  margin: -8px;
+  // margin: -8px;
   background-color: $primaryColorBlue;
   display: flex;
   flex-direction: column;

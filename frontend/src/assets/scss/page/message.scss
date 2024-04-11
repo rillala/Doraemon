@@ -1,44 +1,43 @@
 main {
-    width: 100dvw;
-    //height: 100dvh;
-    height: 100%;
-    margin: -8px;
-    padding: 40px 20px 80px;
-    background: $primaryColorPink;
-    background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
+  width: 100dvw;
+  //height: 100dvh;
+  height: 100%;
+  // margin: -8px;
+  padding: 40px 20px 80px;
+  background: $primaryColorPink;
+  background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
 }
 
 .wrap {
-    max-width: 360px;
-    margin: auto;
-    //height: calc(100svh - 60px);
-    //margin:0 auto 60px;
-    //padding: 40px 20px 0 20px;
+  max-width: 360px;
+  margin: auto;
+  //height: calc(100svh - 60px);
+  //margin:0 auto 60px;
+  //padding: 40px 20px 0 20px;
 }
 
-
 .map-view {
-    outline: none;
-    border: none;
-    background-color: $bgColorWhite;
-    @include btn-shadow;
-    @include br-10;
-    position: absolute;
-    padding: 0;
-    top: 5%;
-    right: 3%;
+  outline: none;
+  border: none;
+  background-color: $bgColorWhite;
+  @include btn-shadow;
+  @include br-10;
+  position: absolute;
+  padding: 0;
+  top: 5%;
+  right: 3%;
 
-    .icon-wrap {
-        display: inline-block;
-        width: 60px;
-        height: 40px;
-        padding: 5px 10px;
-        aspect-ratio: 1;
+  .icon-wrap {
+    display: inline-block;
+    width: 60px;
+    height: 40px;
+    padding: 5px 10px;
+    aspect-ratio: 1;
 
-        img {
-            width: 100%;
-            height: 100%;
-            vertical-align: top;
-        }
+    img {
+      width: 100%;
+      height: 100%;
+      vertical-align: top;
     }
+  }
 }

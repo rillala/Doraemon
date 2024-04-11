@@ -1,98 +1,100 @@
 main {
-    width: 100dvw;
-    //height: 100vh;
-    margin: -8px;
-    background: $primaryColorPink;
-    background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
-    padding: 40px 20px 80px 0;
+  width: 100dvw;
+  //height: 100vh;
+  // margin: -8px;
+  background: $primaryColorPink;
+  background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
+  padding: 40px 20px 80px 0;
 }
 
 .wrap {
-    max-width: 360px;
-    margin: auto;
+  max-width: 360px;
+  margin: auto;
 }
 
 .post-wrap {
-    width: 100%;
-    padding: 20px;
-    margin: 20px auto 0;
-    background-color: #fff;
-    box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.25), -5px -8px 10px 0px rgba(0, 0, 0, 0.22) inset;
-    @include br-10;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width: 100%;
+  padding: 20px;
+  margin: 20px auto 0;
+  background-color: #fff;
+  box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.25),
+    -5px -8px 10px 0px rgba(0, 0, 0, 0.22) inset;
+  @include br-10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .img-wrap {
-    width: 100%;
-    @include br-10;
-    overflow: hidden;
+  width: 100%;
+  @include br-10;
+  overflow: hidden;
 
-    img {
-        width: 100%;
-        vertical-align: top;
-    }
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
 }
 
 textarea {
-    @include input-shadow;
-    @include br-10;
-    outline: none;
-    border: none;
-    padding: 10px;
-    background-color: $inputColor;
-    width: 100%;
-    resize: none;
+  @include input-shadow;
+  @include br-10;
+  outline: none;
+  border: none;
+  padding: 10px;
+  background-color: $inputColor;
+  width: 100%;
+  resize: none;
 }
 
 ::placeholder {
-    color: $inputHintColor;
+  color: $inputHintColor;
 }
 
 .class-wrap {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    .class-btn {
-        cursor: pointer;
-        display: block;
-        color: $mainTextColor;
-        border: dashed 2px $primaryColorPink;
-        background-color: transparent;
-        @include br-10;
-        padding: 5px 15px;
-        margin: 5px;
-        width: 70px;
+  .class-btn {
+    cursor: pointer;
+    display: block;
+    color: $mainTextColor;
+    border: dashed 2px $primaryColorPink;
+    background-color: transparent;
+    @include br-10;
+    padding: 5px 15px;
+    margin: 5px;
+    width: 70px;
 
-        &:hover {
-            background-color: $primaryColorPink;
-            color: $bgColorWhite;
-        }
+    &:hover {
+      background-color: $primaryColorPink;
+      color: $bgColorWhite;
     }
+  }
 }
 
 .sent-btn {
-    cursor: pointer;
-    outline: none;
-    border: none;
-    width: 100%;
-    height: 50px;
-    padding: 5px;
-    margin: 20px auto 0;
-    background-color: #fff;
-    box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.25), -5px -8px 10px 0px rgba(0, 0, 0, 0.22) inset;
-    @include br-10;
-    display: flex;
-    justify-content: center;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  margin: 20px auto 0;
+  background-color: #fff;
+  box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.25),
+    -5px -8px 10px 0px rgba(0, 0, 0, 0.22) inset;
+  @include br-10;
+  display: flex;
+  justify-content: center;
 
-    .sent-icon {
-        width: 40px;
+  .sent-icon {
+    width: 40px;
 
-        img {
-            width: 100%;
-            vertical-align: top;
-        }
+    img {
+      width: 100%;
+      vertical-align: top;
     }
+  }
 }
