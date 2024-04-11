@@ -1,4 +1,3 @@
-
 <template>
   <main>
     <div class="wrap">
@@ -8,20 +7,23 @@
         </div>
       </button> -->
       <div v-for="item in 3">
-        <postCard/>
+        <postCard />
       </div>
     </div>
   </main>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
-import postCard from "@/components/postCard.vue"  
+import { useRoute } from "vue-router";
+import { ref, onMounted } from "vue";
+import postCard from "@/components/postCard.vue";
 
 const route = useRoute();
 const data = route.params.data; // 上面傳遞的參數,可能是a/b/c
 
+onMounted(() => {
+  console.log(data);
+});
 
 // onMounted(() => {
 //   // getData();
@@ -32,9 +34,8 @@ const data = route.params.data; // 上面傳遞的參數,可能是a/b/c
 //   } else {
 //     displayList.value = 廁所的資料;
 //   }
-  
-// });
 
+// });
 </script>
 
 <style lang="scss" scoped>
