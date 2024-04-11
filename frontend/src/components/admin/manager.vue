@@ -1,26 +1,29 @@
 <script setup>
 import { Input, Table, Descriptions, Button } from "ant-design-vue";
 import { EyeOutlined, CloseOutlined } from "@ant-design/icons-vue";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, onUnmounted } from "vue";
+
 import apiInstance from "@/plugins/auth";
+import { db } from "@/firebaseConfig";
+import { collection, onSnapshot, query, doc } from "firebase/firestore";
 
 // 搜尋框
 const value = ref("");
 
 watch(value, (newValue) => {
   if (newValue == "") {
-    console.log("newValue為空值");
+    // console.log("newValue為空值");
     displayList.value = managerList.value;
   }
 });
 
 function onSearch(searchValue) {
-  console.log("use value", searchValue);
-  console.log("or use this.value", value.value);
+  // console.log("use value", searchValue);
+  // console.log("or use this.value", value.value);
 
   displayList.value = managerList.value.filter((item) => {
     return (
-      item.name.includes(searchValue) ||
+      item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
       item.id.toString().includes(searchValue)
     );
   });
@@ -51,44 +54,65 @@ const columns = [
   },
 ];
 
-// fake manager list
+// manager list
 const displayList = ref([]);
-const managerList = ref([
-  {
-    id: 1,
-    name: "John Doe1",
-    account: "dora",
-    psw: "123",
-    status: "0",
-  },
-  {
-    id: 2,
-    name: "John Doe2",
-    account: "dora",
-    psw: "123",
-    status: "0",
-  },
-  {
-    id: 3,
-    name: "John Doe3",
-    account: "dora",
-    psw: "123",
-    status: "0",
-  },
-]);
+const managerList = ref([]);
 
-function getManager() {
-  apiInstance
-    .get("api")
-    .then((response) => {
-      response.data = displayList.value;
-      // 給予套組陣列初始值
-      displayList.value = managerList.value;
-    })
-    .catch((error) => {
-      console.error("Error:", error);
+// const managerList = ref([
+//   {
+//     id: 1,
+//     name: "John Doe1",
+//     account: "dora",
+//     psw: "123",
+//     status: "0",
+//   },
+//   {
+//     id: 2,
+//     name: "John Doe2",
+//     account: "dora",
+//     psw: "123",
+//     status: "0",
+//   },
+//   {
+//     id: 3,
+//     name: "John Doe3",
+//     account: "dora",
+//     psw: "123",
+//     status: "0",
+//   },
+// ]);
+
+let getManagerData;
+
+onMounted(async () => {
+  //組件掛載完成時
+  const lastestQuery = query(collection(db, "admin_manager"));
+
+  getManagerData = onSnapshot(lastestQuery, (snapshot) => {
+    //監聽即時資料更新
+    managerList.value = snapshot.docs.map((doc, index) => {
+      return {
+        id: `${index + 1}`,
+        uid: doc.id,
+        ...doc.data(),
+      };
     });
-}
+
+    console.log(managerList.value);
+
+    // 給予套組陣列初始值
+    displayList.value = managerList.value;
+  });
+});
+
+onUnmounted(() => {
+  //組件被銷毀時
+  if (getManagerData) {
+    getManagerData(); // 停止監聽資料
+  }
+});
+
+// 查看單獨的管理員內容
 
 const infoBox = ref({});
 const showInfoBox = ref(false);
@@ -123,12 +147,6 @@ function changeStatue(currentId) {
     showInfo(currentId);
   }
 }
-
-// 元件初始的時候執行
-onMounted(() => {
-  // getManager();
-  displayList.value = managerList.value;
-});
 </script>
 
 <template>
@@ -145,7 +163,7 @@ onMounted(() => {
       <Table :columns="columns" :data-source="displayList">
         <!-- 狀態列 -->
         <template v-slot:status="{ text }">
-          <span>{{ text == 0 ? "啟用" : "停用" }}</span>
+          <span>{{ text == true ? "啟用" : "停用" }}</span>
         </template>
         <!-- 查看列 -->
         <template v-slot:action="{ record }">
@@ -162,11 +180,13 @@ onMounted(() => {
         :column="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
       >
         <Descriptions.Item label="編號">{{ infoBox.id }}</Descriptions.Item>
+        <Descriptions.Item label="集合ID">{{ infoBox.uid }}</Descriptions.Item>
         <Descriptions.Item label="狀態" class="statue-cell"
           >{{ infoBox.status == 0 ? "啟用" : "停用" }}
-          <Button type="default" @click="changeStatue(infoBox.id)">{{
+
+          <!-- <Button type="default" @click="changeStatue(infoBox.id)">{{
             infoBox.status == 0 ? "停用" : "啟用"
-          }}</Button>
+          }}</Button> -->
         </Descriptions.Item>
         <Descriptions.Item label="帳號">{{
           infoBox.account
