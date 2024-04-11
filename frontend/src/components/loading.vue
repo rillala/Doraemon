@@ -3,157 +3,124 @@
 <template>
   <main>
     <div class="container">
-      <div class="bubble">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="bubble">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="bubble">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="bubble">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="bubble">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <p class="pcSmTitle">啊啊啊啊！大雄！趕快收一下房間！</p>
+      <div class="loader"></div>
     </div>
   </main>
 </template>
 
 <style lang="scss" scoped>
-.bubble {
+.pcSmTitle {
+  color: #fff;
+}
+
+.container {
+  width: 100svw;
+  height: 100svh;
+  margin: -8px;
+  background-color: $primaryColorBlue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.loader {
+  width: 120px;
+  height: 150px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(#ddd 50%, #bbb 51%),
+    linear-gradient(#ddd, #ddd), linear-gradient(#ddd, #ddd),
+    radial-gradient(ellipse at center, #aaa 25%, #eee 26%, #eee 50%, #0000 55%),
+    radial-gradient(ellipse at center, #aaa 25%, #eee 26%, #eee 50%, #0000 55%),
+    radial-gradient(ellipse at center, #aaa 25%, #eee 26%, #eee 50%, #0000 55%);
+  background-position: 0 20px, 45px 0, 8px 6px, 55px 3px, 75px 3px, 95px 3px;
+  background-size: 100% 4px, 1px 23px, 30px 8px, 15px 15px, 15px 15px, 15px 15px;
+  position: relative;
+  border-radius: 6%;
+  animation: shake 3s ease-in-out infinite;
+  transform-origin: 60px 180px;
+}
+
+.loader:before {
+  content: "";
   position: absolute;
-  width: 200px;
-  height: 200px;
+  left: 5px;
+  top: 100%;
+  width: 7px;
+  height: 5px;
+  background: #aaa;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 102px 0 #aaa;
+}
+
+.loader:after {
+  content: "";
+  position: absolute;
+  width: 95px;
+  height: 95px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  bottom: 20px;
+  background-color: #bbdefb;
+  background-image: linear-gradient(
+      to right,
+      #0004 0%,
+      #0004 49%,
+      #0000 50%,
+      #0000 100%
+    ),
+    linear-gradient(135deg, #64b5f6 50%, #607d8b 51%);
+  background-size: 30px 100%, 90px 80px;
   border-radius: 50%;
-  box-shadow: inset 0 0 25px rgba (255, 255, 255, 0.25);
-  animation: animate_4010 8s ease-in-out infinite;
+  background-repeat: repeat, no-repeat;
+  background-position: 0 0;
+  box-sizing: border-box;
+  border: 10px solid #ddd;
+  box-shadow: 0 0 0 4px #999 inset, 0 0 6px 6px #0004 inset;
+  animation: spin 3s ease-in-out infinite;
 }
 
-.bubble:nth-child(2) {
-  position: relative;
-  zoom: 0.45;
-  left: -10px;
-  top: -100px;
-  animation-delay: -4s;
-}
-
-.bubble:nth-child(3) {
-  position: relative;
-  zoom: 0.45;
-  right: -80px;
-  top: -300px;
-  animation-delay: -6s;
-}
-
-.bubble:nth-child(4) {
-  position: relative;
-  zoom: 0.35;
-  left: -120px;
-  bottom: -200px;
-  animation-delay: -3s;
-}
-
-.bubble:nth-child(5) {
-  position: relative;
-  zoom: 0.5;
-  left: 0px;
-  top: 200px;
-  animation-delay: -5s;
-}
-
-@keyframes animate_4010 {
-  0%,
-  100% {
-    transform: translateY(-20px);
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
 
   50% {
-    transform: translateY(20px);
+    transform: rotate(360deg);
+  }
+
+  75% {
+    transform: rotate(750deg);
+  }
+
+  100% {
+    transform: rotate(1800deg);
   }
 }
 
-.bubble::before {
-  content: "";
-  position: absolute;
-  top: 50px;
-  left: 45px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #fff;
-  z-index: 10;
-  filter: blur(2px);
-}
+@keyframes shake {
+  65%,
+  80%,
+  88%,
+  96% {
+    transform: rotate(0.5deg);
+  }
 
-.bubble::after {
-  content: "";
-  position: absolute;
-  top: 80px;
-  left: 80px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #fff;
-  z-index: 10;
-  filter: blur(2px);
-}
+  50%,
+  75%,
+  84%,
+  92% {
+    transform: rotate(-0.5deg);
+  }
 
-.bubble span {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.bubble span:nth-child(1) {
-  inset: 10px;
-  border-left: 15px solid #0fb4ff;
-  filter: blur(8px);
-}
-
-.bubble span:nth-child(2) {
-  inset: 10px;
-  border-right: 15px solid #ff4484;
-  filter: blur(8px);
-}
-
-.bubble span:nth-child(3) {
-  inset: 10px;
-  border-top: 15px solid #ffeb3b;
-  filter: blur(8px);
-}
-
-.bubble span:nth-child(4) {
-  inset: 30px;
-  border-left: 15px solid #ff4484;
-  filter: blur(12px);
-}
-
-.bubble span:nth-child(5) {
-  inset: 10px;
-  border-bottom: 10px solid #fff;
-  filter: blur(8px);
-  transform: rotate(330deg);
+  0%,
+  50%,
+  100% {
+    transform: rotate(0);
+  }
 }
 </style>

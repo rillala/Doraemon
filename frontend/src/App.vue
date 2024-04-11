@@ -7,7 +7,8 @@ import MainHeader from "./components/MainHeader.vue";
 // 判斷是前台還是後臺, 後台的話不顯示nav
 // 使用 useRoute 鉤子來獲取當前路由信息
 const route = useRoute();
-const excludedRoutes = ["/admin", "/manage", "/"];
+// const excludedRoutes = ["/admin", "/manage", "/"]; //之後 home 不用顯示 menu 要換成這個
+const excludedRoutes = ["/admin", "/manage"];
 
 const isActive = computed(() => !excludedRoutes.includes(route.path));
 
@@ -24,7 +25,10 @@ const beforeRouteChange = () => {
 };
 
 const afterRouteChange = () => {
-  setLoading(false);
+  // 使用 setTimeout 延遲設定 isLoading 為 false
+  setTimeout(() => {
+    setLoading(false);
+  }, 1500); // 延遲 2000 毫秒，即 2 秒
 };
 
 onMounted(() => {
@@ -36,7 +40,12 @@ onMounted(() => {
 <template>
   <MainHeader v-if="isActive" />
   <div v-if="isLoading" id="app-loading"><loading /></div>
-  <RouterView v-else />
+  <RouterView id="main-view-app" />
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// 避免被 nav 蓋掉所以增加下面
+#main-view-app {
+  margin-bottom: 80px;
+}
+</style>
