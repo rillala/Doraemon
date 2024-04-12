@@ -67,7 +67,7 @@
                     transform: none;
                 }
 
-                .submenu-btn {
+                .submenu-btn,.submenu-link {
                     display: block;
                     background-color: $primaryColorBlue;
                     color: $bgColorWhite;
@@ -81,6 +81,10 @@
                     &:hover {
                         background-color: $primaryColorNavy;
                     }
+                }
+                .submenu-link{
+                    text-decoration: none;
+                    text-align: center;
                 }
             }
 

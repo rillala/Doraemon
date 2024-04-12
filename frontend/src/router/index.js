@@ -48,7 +48,6 @@ const router = createRouter({
       },
       component: () => import("../views/memberView.vue"),
       children: [
-        { path: "", redirect: { name: "memberInfo" } },
         {
           path: "info",
           name: "memberInfo",

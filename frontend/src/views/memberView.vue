@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="wrap" >
-      <RouterView></RouterView>
+      <RouterView />
     </div>
   </main>
 </template>
@@ -13,18 +13,26 @@
 </script>
 <style lang="scss" scoped>
 main {
-  width: 100dvw;
-  // height: 100dvh;
-  height: 100%;
-  // margin: -8px;
+  width: 100%;
   background: $primaryColorGreen;
   background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
-  padding: 40px 20px 80px;
 }
 .wrap {
   max-width: 360px;
+  height: calc(100svh - 60px);
   margin: auto;
-  //height: calc(100svh - 60px);
-  //margin:0 auto 60px;
+  padding: 40px 20px;
+  overflow-y: scroll;
 }
+::-webkit-scrollbar{
+  width:5px;
+  background-color:transparent;
+  border-radius: 5px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(234, 234, 235, 0.5);
+  border-radius: 10px; 
+}
+
 </style>

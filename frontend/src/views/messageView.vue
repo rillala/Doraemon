@@ -18,12 +18,12 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import postCard from "@/components/postCard.vue";
 
-const route = useRoute();
-const data = route.params.data; // 上面傳遞的參數,可能是a/b/c
+// const route = useRoute();
+// const data = route.params.data; // 上面傳遞的參數,可能是a/b/c
 
-onMounted(() => {
-  console.log(data);
-});
+// onMounted(() => {
+//   console.log(data);
+// });
 
 // onMounted(() => {
 //   // getData();

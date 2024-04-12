@@ -11,14 +11,8 @@
         </li>
         <li class="nav-icon" @click="toggleSubMenu('message')">
           <ul class="submenu-wrap" v-show="subMenuStatus.message">
-            <li>
-              <button class="submenu-btn phMarkText " @click="navigatePost('LivingRoom')">客廳</button>
-            </li>
-            <li>
-              <button class="submenu-btn phMarkText " @click="navigatePost('Bathroom')">廚房</button>
-            </li>
-            <li>
-              <button class="submenu-btn phMarkText " @click="navigatePost('Bedroom')">房間</button>
+            <li v-for="(item, index) in messageMenu" :key="index">
+              <button class="submenu-btn phMarkText " @click="navigatePost(item.class_name)">{{ item.label }}</button>
             </li>
           </ul>
           <div class="icon-wrap">
@@ -39,20 +33,22 @@
         </li>
         <li class="nav-icon" @click="toggleSubMenu('member')"  v-show="isSignin">
           <ul class="submenu-wrap" v-show="subMenuStatus.member">
-            <li>
-              <RouterLink to="/member/info" class="submenu-btn phMarkText">資料</RouterLink>
-            </li>
-            <li>
-              <RouterLink to="/member/post" class="submenu-btn phMarkText">發文</RouterLink>
-            </li>
-            <li>
-              <RouterLink to="/member/save" class="submenu-btn phMarkText">收藏</RouterLink>
+            <li v-for="(item,index) in memberMunu" :key="index">
+              <RouterLink :to="item.route" class="submenu-link phMarkText">{{ item.label }}</RouterLink>
             </li>
             <li>
               <button class="submenu-btn phMarkText" @click="signout()">登出</button>
             </li>
           </ul>
           <div class="icon-wrap"><img src="/member.svg" alt="member"></div>
+        </li>
+        <li class="nav-icon">
+          <RouterLink to="/admin">
+            <p>後台</p>
+            <!-- <div class="icon-wrap">
+              <img src="/home.svg" alt="home">
+            </div> -->
+          </RouterLink>
         </li>
       </ul>
     </div>
@@ -69,16 +65,18 @@
         <div class="sign-outer" ref="signOuter">
           <div class="sign-row" :style="{ transform: `translateX(-${offset}px)` }">
             <div class="signin">
-              <input class="sign-input phMarkText" type="text" placeholder="mail" v-model="signinForm.mail">
-              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signinForm.password">
+              <input class="sign-input phMarkText" type="text" placeholder="email" v-model="signinForm.email">
+              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signinForm.au4a83">
               <span class="sign-forget pcMarkText">忘記密碼？</span>
               <button class="sign-btn phInnerText" @click="signin()">登入</button>
               <button class="othersign-btn phInnerText">Ｇoogle登入</button>
             </div>
             <div class="signup">
               <input class="sign-input phMarkText" type="text" placeholder="name" v-model="signupForm.name">
-              <input class="sign-input phMarkText" type="text" placeholder="mail" v-model="signupForm.mail">
-              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signupForm.password">
+              <input class="sign-input phMarkText" type="text" placeholder="email" v-model="signupForm.email" @focus="cleansignupError">
+              <small>{{ signupError.email }}</small>
+              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signupForm.au4a83" @focus="cleansignupError">
+              <small>{{ signupError.au4a83 }}</small>
               <button class="sign-btn phInnerText" @click="singup()">註冊</button>
               <button class="othersign-btn phInnerText">Ｇoogle註冊</button>
             </div>
@@ -94,6 +92,20 @@ import { ref,onMounted,watch } from "vue";
 import { useRouter } from 'vue-router';
 
 //submenu按鈕
+const router = useRouter();
+const messageMenu = [
+  {class_name:'Bedroom',label:'房間'},
+  {class_name:'LivingRoom',label:'客廳'},
+  {class_name:'Bathroom',label:'廚房'},
+]
+const navigatePost = (post_class_name)=>{
+  router.push({name:'message',params:{post_class_name}})
+};
+const memberMunu = [
+  {route:'/member/info',label:'資料'},
+  {route:'/member/post',label:'發文'},
+  {route:'/member/save',label:'收藏'}
+];
 const subMenuStatus = ref({
   message:false,
   member:false
@@ -107,10 +119,6 @@ const toggleSignModal = ()=>{
   signModalStatus.value = !signModalStatus.value;
 }
 
-const router = useRouter();
-const navigatePost = (post_class_name)=>{
-  router.push({name:'message',params:{post_class_name}})
-};
 
 //登入註冊切換，用carousel的方法寫
 const isChecked = ref(false);
@@ -133,61 +141,78 @@ onMounted(()=>{
 
 
 
-
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "firebase/auth";
-//composition API中的ref會和firebase中的ref衝突，因此另外給名稱
-import { getDatabase, ref as firebaseRef, set ,update, push ,child} from "firebase/database";
-
-//使用firebase auth驗證, 成功後儲存資料到realtime database
+import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "firebase/auth";
+//使用firebase auth驗證
 const auth = getAuth();
-const db = getDatabase();
 
 //註冊
 const signupForm = ref({
   name:'',
-  mail:'',
-  password:'',
+  email:'',
+  au4a83:'',
 })
 
 const singup = ()=>{
-  createUserWithEmailAndPassword(auth,signupForm.value.mail,signupForm.value.password)
-    .then((userCredential)=>{
+  createUserWithEmailAndPassword(auth,signupForm.value.email,signupForm.value.au4a83)
+  .then((userCredential)=>{
       const user = userCredential.user;
-
-      //寫入資料到realtime database
-      set(firebaseRef(db,'users/' + user.uid),{
-        username:signupForm.value.name,
-        email:signupForm.value.mail,
-      })
-      console.log(user.uid);
-      console.log(signupForm.value);
+      //用mail註冊要另外把displayName存進去，使用updateProfile
+      updateProfile(user,{displayName:signupForm.value.name})
+        .then(()=>{
+          alert('註冊成功');
+          signModalStatus.value = false;
+          router.push('/member/info');
+        }).catch((error)=>{
+          console.error(error);
+        })
     })
     .catch((error)=>{
       const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(errorCode,errorMessage);
+      switch(errorCode){
+        case 'auth/invalid-email': 
+        signupError.value.email = '請輸入正確Email格式';
+        break;
+        case 'auth/email-already-in-use': 
+        signupError.value.email = '此Email已存在';
+        break;
+        case 'auth/weak-password':
+          signupError.value.au4a83 = '密碼請設定6個字以上';
+          break;
+        default:
+          console.error(errorCode,error.message);
+      };
     })
+}
+
+const signupError = ref({email:'',au4a83:''});
+const cleansignupError = ()=>{
+  signupError.value = {email:'',au4a83:''}
 }
 
 
 //登入
 const signinForm = ref({
-  mail:'',
-  password:''
+  email:'',
+  au4a83:''
 });
 
 const signin = ()=>{
-  signInWithEmailAndPassword(auth,signinForm.value.mail,signinForm.value.password)
+  signInWithEmailAndPassword(auth,signinForm.value.email,signinForm.value.au4a83)
   .then((userCredential)=>{
     const user = userCredential.user;
     alert('登入成功');
     signModalStatus.value = false;
-    router.push('/member');
+    router.push('/member/info');
   })
   .catch((error)=>{
     const errorCode = error.code;
-    const errorMessage = error.message;
-    console.error(errorCode,errorMessage);
+    switch(errorCode){
+        case 'auth/invalid-credential': 
+        alret('登入失敗，請再次確認帳號密碼')
+        break;
+        default:
+          console.error(errorCode,error.message);
+      };
   })
 };
 

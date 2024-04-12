@@ -109,6 +109,7 @@ function checkLogin() {
       <Button class="btn pcInnerText" type="default" @click="checkLogin"
         >登入</Button
       >
+      <RouterLink class="link pcMarkText" to="/">前台首頁</RouterLink>
     </div>
   </main>
 </template>
@@ -147,5 +148,11 @@ h1 {
   border: 1px solid $bgColorGray;
   height: 36px;
   padding: 10px;
+}
+
+.link{
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
 }
 </style>

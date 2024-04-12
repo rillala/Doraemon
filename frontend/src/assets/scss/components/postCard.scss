@@ -21,6 +21,7 @@
             width: 30px;
             top: 0;
             right: 0;
+            cursor: pointer;
             img{
                 width: 100%;
                 vertical-align: top;
@@ -74,6 +75,7 @@
     .more-comment{
         align-self: flex-end;
         color: $inputHintColor;
+        cursor: pointer;
     }
     .comment-other{
         display: flex;

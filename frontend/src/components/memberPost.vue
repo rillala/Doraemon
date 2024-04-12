@@ -2,9 +2,6 @@
     <h1>memberpost</h1>
     <div class="wrap">
         <postCard />
-        <postCard />
-        <postCard />
-        <postCard />
     </div>
 </template>
 
