@@ -91,7 +91,7 @@
 import { ref,onMounted,watch } from "vue";
 import { useRouter } from 'vue-router';
 
-//submenu按鈕
+//submenu狀態和導航
 const router = useRouter();
 const messageMenu = [
   {class_name:'Bedroom',label:'房間'},
@@ -119,7 +119,6 @@ const toggleSignModal = ()=>{
   signModalStatus.value = !signModalStatus.value;
 }
 
-
 //登入註冊切換，用carousel的方法寫
 const isChecked = ref(false);
 const offset = ref(0);
@@ -141,7 +140,7 @@ onMounted(()=>{
 
 
 
-import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,onAuthStateChanged,signOut, sendEmailVerification} from "firebase/auth";
 //使用firebase auth驗證
 const auth = getAuth();
 
@@ -151,7 +150,14 @@ const signupForm = ref({
   email:'',
   au4a83:'',
 })
-
+//註冊時的錯誤訊息
+const signupError = ref({
+  email:'',
+  au4a83:''
+});
+const cleansignupError = ()=>{
+  signupError.value = {email:'',au4a83:''}
+}
 const singup = ()=>{
   createUserWithEmailAndPassword(auth,signupForm.value.email,signupForm.value.au4a83)
   .then((userCredential)=>{
@@ -159,9 +165,15 @@ const singup = ()=>{
       //用mail註冊要另外把displayName存進去，使用updateProfile
       updateProfile(user,{displayName:signupForm.value.name})
         .then(()=>{
-          alert('註冊成功');
-          signModalStatus.value = false;
-          router.push('/member/info');
+          //驗證mail後才算註冊成功
+          sendEmailVerification(user)
+            .then(()=>{
+              alert('註冊成功，請檢查信件以完成驗證')
+              signModalStatus.value = false;
+              router.push('/member/info');
+            }).catch((error=>{
+              console.error(error);
+            }))
         }).catch((error)=>{
           console.error(error);
         })
@@ -184,11 +196,6 @@ const singup = ()=>{
     })
 }
 
-const signupError = ref({email:'',au4a83:''});
-const cleansignupError = ()=>{
-  signupError.value = {email:'',au4a83:''}
-}
-
 
 //登入
 const signinForm = ref({
@@ -208,7 +215,7 @@ const signin = ()=>{
     const errorCode = error.code;
     switch(errorCode){
         case 'auth/invalid-credential': 
-        alret('登入失敗，請再次確認帳號密碼')
+        alert('登入失敗，請再次確認帳號密碼')
         break;
         default:
           console.error(errorCode,error.message);
@@ -218,6 +225,7 @@ const signin = ()=>{
 
 // 判斷是否登入，true可以click會員子選單,false可以click signform
 const isSignin = ref(false);
+
 onMounted(()=>{
   onAuthStateChanged(auth,(user)=>{
     isSignin.value = !!user;

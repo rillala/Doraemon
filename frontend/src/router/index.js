@@ -28,14 +28,14 @@ const router = createRouter({
       },
       component: () => import("../views/PostMessageView.vue"),
     },
-    {
-      path: "/game",
-      name: "game",
-      meta: {
-        title: "拯救馬桶 Rescue that Toilet",
-      },
-      component: () => import("../views/gameView.vue"),
-    },
+    // {
+    //   path: "/game",
+    //   name: "game",
+    //   meta: {
+    //     title: "拯救馬桶 Rescue that Toilet",
+    //   },
+    //   component: () => import("../views/gameView.vue"),
+    // },
 
     // 以下前台頁面需要登入後才能前往
     {

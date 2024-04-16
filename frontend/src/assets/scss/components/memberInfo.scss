@@ -56,29 +56,40 @@
     position: relative;
     z-index: 10;
     display: flex;
-    gap: 10px;
+    gap: 5px;
     width: 83.333%;
-
+    align-items: center;
+    color: $mainTextColor;
     .member-input {
         width: 100%;
-        @include input-h50;
-        padding-left: 20px;
-        color: $primaryColorGreen;
-    }
-
-    ::placeholder {
-        color: $inputHintColor;
-    }
-
-    button {
-        cursor: pointer;
         outline: none;
         border: none;
-        background-color: transparent;
+        height: 50px;
+        padding-left: 1em;
+        &-modify {
+            width: 100%;
+            @include input-h50;
+            padding-left: 1em;
+            // color: $inputHintColor;
+        }
+    }
+    ::placeholder{
+        color: $mainTextColor;
     }
 
-    img {
-        width: 100%;
-        vertical-align: top;
+}
+
+.editing-btn{
+    cursor: pointer;
+    outline: none;
+    border: 2px dashed $primaryColorGreen;
+    @include br-10;
+    background-color: transparent;
+    color: $primaryColorGreen;
+    padding: 10px;
+    margin: 0 10px;
+    &:hover {
+        background-color: $primaryColorGreen;
+        color: $bgColorWhite;
     }
 }

@@ -23,6 +23,9 @@ main {
   margin: auto;
   padding: 40px 20px;
   overflow-y: scroll;
+  @include tablet {
+    height: 100svh;
+  }
 }
 ::-webkit-scrollbar{
   width:5px;
