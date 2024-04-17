@@ -33,7 +33,7 @@
   box-shadow: 5px 5px 5px rgba(0,0,0, .2);
 }
 @mixin input-shadow{
-  box-shadow: inset 5px 5px 5px rgba(0,0,0, .2), 5px 5px 5px rgba(0,0,0, .2);
+  box-shadow: inset 5px 5px 5px rgba(0,0,0, .15), 5px 5px 5px rgba(0,0,0, .2);
   -webkit-appearance: none;
 }
 @mixin br-10{
@@ -68,7 +68,7 @@
 @mixin input-h50{
   outline: none;
   border: none;
-  height: 50px;
+  height: 3em;
   background-color: $bgColorWhite;
   @include br-10;
   @include input-shadow;

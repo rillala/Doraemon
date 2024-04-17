@@ -57,39 +57,52 @@
     z-index: 10;
     display: flex;
     gap: 5px;
-    width: 83.333%;
+    width: 90%;
     align-items: center;
     color: $mainTextColor;
+    flex-wrap: wrap;
     .member-input {
-        width: 100%;
+        // width: 100%;
         outline: none;
         border: none;
-        height: 50px;
-        padding-left: 1em;
+        height: 3em;
+        flex-grow: 1;
         &-modify {
-            width: 100%;
+            // width: 100%;
             @include input-h50;
-            padding-left: 1em;
-            // color: $inputHintColor;
+            padding-left: .7em;
+            color: $primaryColorGreen;
+            flex-grow: 1;
         }
     }
     ::placeholder{
-        color: $mainTextColor;
+        color: $primaryColorGreen;
     }
 
 }
-
-.editing-btn{
-    cursor: pointer;
-    outline: none;
-    border: 2px dashed $primaryColorGreen;
-    @include br-10;
-    background-color: transparent;
-    color: $primaryColorGreen;
-    padding: 10px;
-    margin: 0 10px;
-    &:hover {
-        background-color: $primaryColorGreen;
-        color: $bgColorWhite;
+.modify-btn-wrap{
+    width: 30px;
+    img{
+        width: 100%;
+        vertical-align: top;
+    }
+}
+.save-btn-wrap{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    .save-btn{
+        cursor: pointer;
+        outline: none;
+        border: 2px dashed $primaryColorGreen;
+        @include br-10;
+        background-color: transparent;
+        color: $primaryColorGreen;
+        padding: 10px;
+        margin: 0 10px;
+        &:hover {
+            background-color: $primaryColorGreen;
+            color: $bgColorWhite;
+        }
     }
 }

@@ -3,123 +3,164 @@
         <div class="avatar-wrap">
             <img src="/member.svg" alt="avatar">
         </div>
-        <span class="phInnerText">馬桶王</span>
+        <span class="phInnerText">{{ memberInfo[0].data }}</span>
     </div>
     <div class="member-info">
         <div class="input-wrap" v-for="(item, index) in memberInfo" :key="index">
             <label class="phMarkText">{{ item.label }}：</label>
-            <input :readonly="!editing" class="phMarkText member-input" :placeholder="item.data"
-                v-show="!editing"></input>
-            <input type="text" class="phMarkText member-input-modify" v-model="item.data" v-show="editing">
-        </div>
-        <div class="btn-wrap" style="z-index: 10;">
-            <button class="phMarkText editing-btn" v-show="!editing" @click="toggleToModify">修改資料</button>
-            <button class="phMarkText editing-btn" v-show="editing" @click="saveEditing">儲存修改</button>
-            <button class="phMarkText editing-btn" @click="toggleToModify" v-show="editing">取消修改</button>
-            <button class="phMarkText editing-btn" v-show="!editing">修改密碼</button>
+            <input 
+                :type="item.type || 'text'" 
+                class="phMarkText member-input" 
+                :value="item.data"
+                v-show="!item.editing" 
+                readonly
+            >
+            <input 
+                :type="item.type || 'text'" 
+                class="phMarkText member-input-modify" 
+                :placeholder="item.placeholder"
+                v-show="item.editing" 
+                v-model="item.data"
+            >
+            <input type="password" class="phMarkText member-input-modify" placeholder="請輸入原有密碼" v-model="oldPassword" v-show="item.editing && (item.label=='信箱' || item.label=='密碼')">
+            <div class="modify-btn-wrap" v-show="!item.editing" @click="toggleToModify(item.label)">
+                <img src="../../public/pencil.png" alt="修改資料">
+            </div>
+            <div class="save-btn-wrap" v-show="item.editing" style="display: flex;">
+                <i class="fa-solid fa-check fa-xl save-btn" @click="saveEditing(item.label)"></i>
+                <i class="fa-solid fa-xmark fa-xl save-btn" @click="toggleToModify(item.label)"></i>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { getAuth, updateProfile, verifyBeforeUpdateEmail, updateEmail, reauthenticateWithCredential, EmailAuthProvider, signOut } from "firebase/auth";
-import { onMounted, ref } from "vue";
+import { getAuth, updateProfile, verifyBeforeUpdateEmail, updateEmail, reauthenticateWithCredential, EmailAuthProvider, signOut, updatePassword } from "firebase/auth";
+import { ref } from "vue";
 import { useRouter } from 'vue-router';
 
 const auth = getAuth();
 const user = auth.currentUser;
 const router = useRouter();
-console.log(user)
+
+const toggleToModify = (label) => {
+    const item = memberInfo.value.find(i => i.label == label)
+    if (item) {
+        item.editing = !item.editing;
+    }
+}
 
 const memberInfo = ref([
-    { label: 'name', data: '' },
-    { label: 'email', data: '' },
-    { label: 'password', data: '' },
+    { label: '名字', data: user.displayName, placeholder: '請輸入名字', editing: false },
+    { label: '信箱', data: user.email, placeholder: '請輸入email', type: 'email', editing: false },
+    { label: '密碼', data: '', placeholder: '請輸入新密碼', type: 'password', editing: false },
 ])
 
-onMounted(() => {
-    if (user) {
-        memberInfo.value.forEach(item => {
-            switch (item.label) {
-                case 'name':
-                    item.data = user.displayName;
-                    break;
-                case 'email':
-                    item.data = user.email;
-                    break;
-                // case 'password':
-                //     item.data = '******';
-                //     break;
-            }
-        })
-    }
-})
+const oldPassword = ref('');
 
-const editing = ref(false);
-const toggleToModify = () => {
-    editing.value = !editing.value;
-}
 
-//敏感資料修改時，要重新取得user的驗證
-async function reAuth(email, password) {
+//根據傳入的label判斷是哪個欄位需要修改
+const saveEditing = async (label) => {
     try {
-        // const auth = getAuth();
-        // const user = auth.currentUser;
-        const credential = EmailAuthProvider.credential(email, password);
-        await reauthenticateWithCredential(user, credential);
-        return true
+        const item = memberInfo.value.find(i => i.label == label)
+        switch(label){
+            case '名字':
+                await modifyName(item);
+                break;
+            case '信箱':
+                await modifyEmail(item);
+                break;
+            case '密碼':
+                await modifyPassword(item);
+                break;
+            default:
+                console.error('未識別的標籤')
+        }
     } catch (e) {
-        return null
+        console.error('修改失敗：', e);
     }
 }
 
-//更新email並同步發驗證信
-async function modifyEmail() {
-    const auth = getAuth();
-    const user = auth.currentUser;
+//敏感資料(eamil,password)修改時，要重新取得user的驗證
+async function reAuth() {
+    //剛登入時可以不用經過credential就修改，加入判斷強制取得
+    if(!oldPassword.value){
+        alert('請輸入原有密碼');
+        return false;
+    }
+    try {
+        const credential = EmailAuthProvider.credential(user.email, oldPassword.value);
+        await reauthenticateWithCredential(user, credential);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+//修改displayName
+async function modifyName(item) {
+    await updateProfile(user, { displayName: item.data });
+    alert('名字更新成功');
+    item.editing = false;
+}
+
+//修改email並同步發驗證信
+async function modifyEmail(item) {
     const actionCodeSettings = {
         //點完驗證連結後跳轉的網址
-        url: 'https://doraemon-dbbf0.web.app/member/info',
-        // url: 'http://localhost:5173/member/info',
+        // url: 'https://doraemon-dbbf0.web.app/member/info',
+        url: 'http://localhost:5173/member/info',
         handleCodeInApp: true,
+    }
+    const authSuccess = await reAuth();
+    if (!authSuccess) {
+        return;
     }
     try {
         //新的email要到更新後的信箱重新驗證
-        await verifyBeforeUpdateEmail(user, memberInfo.value[1].data, actionCodeSettings)
-        console.log(user);
-        console.log(memberInfo.value[1]);
-        await updateEmail(user, memberInfo.value[1].data);
-    } catch (e) {
-        if (e.code === 'auth/operation-not-allowed') {
-            alert('修改成功，請至信箱完成驗證');
-            signOut(auth);
-            router.push('/');
-        } else {
-            console.error('email修改失敗：', e.message);
+        await verifyBeforeUpdateEmail(user, item.data, actionCodeSettings)
+        await updateEmail(user, item.data);
+        item.editing = false;
+    } catch (error) {
+        const errorCode = error.code;
+        switch (errorCode) {
+            case 'auth/operation-not-allowed':
+                alert('修改成功，請至信箱完成驗證');
+                signOut(auth);
+                router.push('/');
+                break;
+            case 'auth/requires-recent-login':
+                alert('請輸入密碼完成修改');
+                break;
+            default:
+                console.error('email修改失敗：', errorCode, error.message);
+        };
+    }
+}
+//修改password(在登入狀態下)
+async function modifyPassword(item) {
+    const authSuccess = await reAuth();
+    if (!authSuccess) {
+        return;
+    }
+    try {
+        await updatePassword(user, item.data);
+        alert('密碼更新完成，請重新登入');
+        signOut(auth);
+        router.push('/');
+        item.editing = false;
+    } catch (error) {
+        const errorCode = error.code;
+        if(errorCode == 'auth/weak-password'){
+            alert('密碼請設定6個字以上');
+        }else{
+            console.error('修改失敗：', e);
         }
     }
 }
 
-const saveEditing = async () => {
-    try {
-        const email = user.email;
-        const password = memberInfo.value.find(item => item.label === 'password').data;
-        await reAuth(email, password);
-        console.log('here');
 
-        // 更新displayname
-        const displayName = memberInfo.value.find(item => item.label === 'name').data;
-        await updateProfile(user, { displayName: displayName })
-        console.log("Profile updated successfully");
-        console.log(memberInfo.value[0]);
 
-        //更新email
-        await modifyEmail();
-    } catch (e) {
-        console.error('修改失敗：', e);
-    }
 
-}
 
 
 </script>

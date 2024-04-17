@@ -66,17 +66,26 @@
           <div class="sign-row" :style="{ transform: `translateX(-${offset}px)` }">
             <div class="signin">
               <input class="sign-input phMarkText" type="text" placeholder="email" v-model="signinForm.email">
-              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signinForm.au4a83">
-              <span class="sign-forget pcMarkText">忘記密碼？</span>
-              <button class="sign-btn phInnerText" @click="signin()">登入</button>
-              <button class="othersign-btn phInnerText">Ｇoogle登入</button>
+              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signinForm.password">
+              <span class="sign-forget pcMarkText" @click="toggleForgotEmail">忘記密碼？</span>
+
+              <div class="sign-forgrt-wrap" v-show="forgotEmail.status">
+                <input class="sign-input phMarkText" type="text" placeholder="請輸入email" v-model="forgotEmail.input" >
+                <button class="sign-btn phInnerText" v-show="forgotEmail.status" @click="forgotPassword"> 確認送出</button>
+              </div>
+
+              <div class="sign-btn-wrap" v-show="!forgotEmail.status">
+                <button class="sign-btn phInnerText" @click="signin()">登入</button>
+                <button class="othersign-btn phInnerText">Ｇoogle登入</button>
+              </div>
+
             </div>
             <div class="signup">
               <input class="sign-input phMarkText" type="text" placeholder="name" v-model="signupForm.name">
               <input class="sign-input phMarkText" type="text" placeholder="email" v-model="signupForm.email" @focus="cleansignupError">
               <small>{{ signupError.email }}</small>
-              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signupForm.au4a83" @focus="cleansignupError">
-              <small>{{ signupError.au4a83 }}</small>
+              <input class="sign-input phMarkText" type="text" placeholder="password" v-model="signupForm.password" @focus="cleansignupError">
+              <small>{{ signupError.password }}</small>
               <button class="sign-btn phInnerText" @click="singup()">註冊</button>
               <button class="othersign-btn phInnerText">Ｇoogle註冊</button>
             </div>
@@ -140,7 +149,7 @@ onMounted(()=>{
 
 
 
-import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,onAuthStateChanged,signOut, sendEmailVerification} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,onAuthStateChanged,signOut, sendEmailVerification, sendPasswordResetEmail} from "firebase/auth";
 //使用firebase auth驗證
 const auth = getAuth();
 
@@ -148,18 +157,18 @@ const auth = getAuth();
 const signupForm = ref({
   name:'',
   email:'',
-  au4a83:'',
+  password:'',
 })
 //註冊時的錯誤訊息
 const signupError = ref({
   email:'',
-  au4a83:''
+  password:''
 });
 const cleansignupError = ()=>{
-  signupError.value = {email:'',au4a83:''}
+  signupError.value = {email:'',password:''}
 }
 const singup = ()=>{
-  createUserWithEmailAndPassword(auth,signupForm.value.email,signupForm.value.au4a83)
+  createUserWithEmailAndPassword(auth,signupForm.value.email,signupForm.value.password)
   .then((userCredential)=>{
       const user = userCredential.user;
       //用mail註冊要另外把displayName存進去，使用updateProfile
@@ -171,6 +180,7 @@ const singup = ()=>{
               alert('註冊成功，請檢查信件以完成驗證')
               signModalStatus.value = false;
               router.push('/member/info');
+              cleanForm();
             }).catch((error=>{
               console.error(error);
             }))
@@ -188,7 +198,7 @@ const singup = ()=>{
         signupError.value.email = '此Email已存在';
         break;
         case 'auth/weak-password':
-          signupError.value.au4a83 = '密碼請設定6個字以上';
+          signupError.value.password = '密碼請設定6個字以上';
           break;
         default:
           console.error(errorCode,error.message);
@@ -200,26 +210,21 @@ const singup = ()=>{
 //登入
 const signinForm = ref({
   email:'',
-  au4a83:''
+  password:''
 });
 
 const signin = ()=>{
-  signInWithEmailAndPassword(auth,signinForm.value.email,signinForm.value.au4a83)
+  signInWithEmailAndPassword(auth,signinForm.value.email,signinForm.value.password)
   .then((userCredential)=>{
     const user = userCredential.user;
     alert('登入成功');
     signModalStatus.value = false;
     router.push('/member/info');
+    cleanForm();
   })
   .catch((error)=>{
     const errorCode = error.code;
-    switch(errorCode){
-        case 'auth/invalid-credential': 
-        alert('登入失敗，請再次確認帳號密碼')
-        break;
-        default:
-          console.error(errorCode,error.message);
-      };
+    alert('登入失敗，請再次確認帳號密碼')
   })
 };
 
@@ -236,6 +241,32 @@ onMounted(()=>{
 const signout = ()=>{
   signOut(auth).then(()=>{
     router.push('/');
+  }).catch((error)=>{
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error(errorCode,errorMessage);
+  })
+}
+
+const cleanForm = ()=>{
+  signupForm.value.name = '';
+  signupForm.value.email = '';
+  signupForm.value.password = '';
+  signinForm.value.email = '';
+  signinForm.value.password = '';
+}
+
+const forgotEmail = ref({input:'',status:false});
+const toggleForgotEmail = ()=>{
+  forgotEmail.value.status = !forgotEmail.value.status;
+}
+//忘記密碼
+const forgotPassword = ()=>{
+  sendPasswordResetEmail(auth,forgotEmail.value.input)
+  .then(()=>{
+    alert('請至信箱收件');
+    // 
+    location.reload();
   }).catch((error)=>{
     const errorCode = error.code;
     const errorMessage = error.message;

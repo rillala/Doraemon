@@ -272,20 +272,24 @@ input:checked~.switch-right::before {
             ::placeholder {
                 color: $inputHintColor;
             }
-
-            .sign-forget {
-                color: $bgColorWhite;
-            }
-
-            .sign-btn {
-                @include btn-primaryColorBlue;
-                width: 83.333%;
-            }
-
-            .othersign-btn {
-                @include btn-outline-primaryColorBlue;
-                width: 83.333%;
-            }
         }
+    }
+}
+.sign-forget {
+    color: $bgColorWhite;
+}
+.sign-forgrt-wrap,.sign-btn-wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    .sign-btn {
+        @include btn-primaryColorBlue;
+        width: 83.333%;
+    }
+    .othersign-btn {
+        @include btn-outline-primaryColorBlue;
+        width: 83.333%;
     }
 }
