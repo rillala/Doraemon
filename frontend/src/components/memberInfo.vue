@@ -104,8 +104,8 @@ async function modifyName(item) {
 async function modifyEmail(item) {
     const actionCodeSettings = {
         //點完驗證連結後跳轉的網址
-        // url: 'https://doraemon-dbbf0.web.app/member/info',
-        url: 'http://localhost:5173/member/info',
+        url: 'https://doraemon-dbbf0.web.app/member/info',
+        // url: 'http://localhost:5173/member/info',
         handleCodeInApp: true,
     }
     const authSuccess = await reAuth();
