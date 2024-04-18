@@ -1,28 +1,23 @@
 <template>
     <div class="member-basic">
         <div class="avatar-wrap">
-            <img src="/member.svg" alt="avatar">
+            <div class="img-wrap">
+                <img v-if="imageURL" :src="imageURL" :style="{ width: '100%', height: '100%' }">
+                <img src="/member.svg" alt="avatar" :style="{ display: imageURL == null ? 'block' : 'none' }">
+            </div>
+            <input type="file" class="theFile" @change="fileChange">
         </div>
         <span class="phInnerText">{{ memberInfo[0].data }}</span>
     </div>
     <div class="member-info">
         <div class="input-wrap" v-for="(item, index) in memberInfo" :key="index">
             <label class="phMarkText">{{ item.label }}：</label>
-            <input 
-                :type="item.type || 'text'" 
-                class="phMarkText member-input" 
-                :value="item.data"
-                v-show="!item.editing" 
-                readonly
-            >
-            <input 
-                :type="item.type || 'text'" 
-                class="phMarkText member-input-modify" 
-                :placeholder="item.placeholder"
-                v-show="item.editing" 
-                v-model="item.data"
-            >
-            <input type="password" class="phMarkText member-input-modify" placeholder="請輸入原有密碼" v-model="oldPassword" v-show="item.editing && (item.label=='信箱' || item.label=='密碼')">
+            <input :type="item.type || 'text'" class="phMarkText member-input" :value="item.data" v-show="!item.editing"
+                readonly>
+            <input :type="item.type || 'text'" class="phMarkText member-input-modify" :placeholder="item.placeholder"
+                v-show="item.editing" v-model="item.data">
+            <input type="password" class="phMarkText member-input-modify" placeholder="請輸入原有密碼" v-model="oldPassword"
+                v-show="item.editing && (item.label == '信箱' || item.label == '密碼')">
             <div class="modify-btn-wrap" v-show="!item.editing" @click="toggleToModify(item.label)">
                 <img src="../../public/pencil.png" alt="修改資料">
             </div>
@@ -35,9 +30,10 @@
 </template>
 
 <script setup>
-import { getAuth, updateProfile, verifyBeforeUpdateEmail, updateEmail, reauthenticateWithCredential, EmailAuthProvider, signOut, updatePassword } from "firebase/auth";
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
+import { getAuth, updateProfile, verifyBeforeUpdateEmail, updateEmail, reauthenticateWithCredential, EmailAuthProvider, signOut, updatePassword } from "firebase/auth";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, } from 'firebase/storage';
 
 const auth = getAuth();
 const user = auth.currentUser;
@@ -56,14 +52,12 @@ const memberInfo = ref([
     { label: '密碼', data: '', placeholder: '請輸入新密碼', type: 'password', editing: false },
 ])
 
-const oldPassword = ref('');
-
 
 //根據傳入的label判斷是哪個欄位需要修改
 const saveEditing = async (label) => {
     try {
         const item = memberInfo.value.find(i => i.label == label)
-        switch(label){
+        switch (label) {
             case '名字':
                 await modifyName(item);
                 break;
@@ -81,10 +75,12 @@ const saveEditing = async (label) => {
     }
 }
 
+const oldPassword = ref('');
+
 //敏感資料(eamil,password)修改時，要重新取得user的驗證
 async function reAuth() {
     //剛登入時可以不用經過credential就修改，加入判斷強制取得
-    if(!oldPassword.value){
+    if (!oldPassword.value) {
         alert('請輸入原有密碼');
         return false;
     }
@@ -93,6 +89,7 @@ async function reAuth() {
         await reauthenticateWithCredential(user, credential);
         return true;
     } catch (e) {
+        alert('密碼錯誤');
         return false;
     }
 }
@@ -150,9 +147,9 @@ async function modifyPassword(item) {
         item.editing = false;
     } catch (error) {
         const errorCode = error.code;
-        if(errorCode == 'auth/weak-password'){
+        if (errorCode == 'auth/weak-password') {
             alert('密碼請設定6個字以上');
-        }else{
+        } else {
             console.error('修改失敗：', e);
         }
     }
@@ -160,8 +157,33 @@ async function modifyPassword(item) {
 
 
 
+//修改會員大頭貼，存在storage中
+const imageURL = ref('' || user.photoURL);
 
-
+//使用storage
+const storage = getStorage();
+const fileChange = async (e) => {
+    if(user){
+        //抓到上傳的文件
+        const file = e.target.files[0];
+        //上傳文件的路徑以uid顯示，上傳新的會把舊的蓋掉
+        const fileRef = storageRef(storage, `avatars/${user.uid}`);
+        
+        try{
+            //上傳照片
+            const snapshot = await uploadBytes(fileRef,file);
+            //抓到上傳照片的URL(下載它的數據)
+            const photoURL = await getDownloadURL(snapshot.ref);
+            //寫進user的photoURL中
+            await updateProfile(user,{photoURL:photoURL})
+            //更新畫面
+            imageURL.value = photoURL;
+            console.log(user.photoURL);
+        }catch(error){
+            console.error(error);
+        }
+    }
+};
 
 </script>
 
