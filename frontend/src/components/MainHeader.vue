@@ -99,6 +99,7 @@
 <script setup>
 import { ref,onMounted,watch } from "vue";
 import { useRouter } from 'vue-router';
+import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,onAuthStateChanged,signOut, sendEmailVerification, sendPasswordResetEmail} from "firebase/auth";
 
 //submenu狀態和導航
 const router = useRouter();
@@ -147,9 +148,6 @@ onMounted(()=>{
   switchSign();
 })
 
-
-
-import { getAuth, createUserWithEmailAndPassword,updateProfile,signInWithEmailAndPassword,onAuthStateChanged,signOut, sendEmailVerification, sendPasswordResetEmail} from "firebase/auth";
 //使用firebase auth驗證
 const auth = getAuth();
 
@@ -256,16 +254,15 @@ const cleanForm = ()=>{
   signinForm.value.password = '';
 }
 
+//忘記密碼
 const forgotEmail = ref({input:'',status:false});
 const toggleForgotEmail = ()=>{
   forgotEmail.value.status = !forgotEmail.value.status;
 }
-//忘記密碼
 const forgotPassword = ()=>{
   sendPasswordResetEmail(auth,forgotEmail.value.input)
   .then(()=>{
     alert('請至信箱收件');
-    // 
     location.reload();
   }).catch((error)=>{
     const errorCode = error.code;
