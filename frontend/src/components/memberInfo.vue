@@ -32,7 +32,16 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
-import { getAuth, updateProfile, verifyBeforeUpdateEmail, updateEmail, reauthenticateWithCredential, EmailAuthProvider, signOut, updatePassword } from "firebase/auth";
+import { 
+    getAuth, 
+    updateProfile, 
+    verifyBeforeUpdateEmail, 
+    updateEmail, 
+    reauthenticateWithCredential, 
+    EmailAuthProvider, 
+    signOut, 
+    updatePassword,
+} from "firebase/auth";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, } from 'firebase/storage';
 
 const auth = getAuth();
@@ -40,9 +49,16 @@ const user = auth.currentUser;
 const router = useRouter();
 
 const toggleToModify = (label) => {
-    const item = memberInfo.value.find(i => i.label == label)
-    if (item) {
-        item.editing = !item.editing;
+    //檢查是不是用email登入
+    const isEmailLogin = user.providerData.some(p=>p.providerId === 'password');
+    //email登入的才能修改memberInfo
+    if(isEmailLogin){
+        const item = memberInfo.value.find(i => i.label == label)
+        if (item) {
+            item.editing = !item.editing;
+        }
+    }else{
+        alert('使用google登入，請至google帳號修改個人資訊');
     }
 }
 
@@ -155,13 +171,12 @@ async function modifyPassword(item) {
     }
 }
 
-
-
 //修改會員大頭貼，存在storage中
 const imageURL = ref('' || user.photoURL);
 
 //使用storage
 const storage = getStorage();
+//修改大頭貼
 const fileChange = async (e) => {
     if(user){
         //抓到上傳的文件
