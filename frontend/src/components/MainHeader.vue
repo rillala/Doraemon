@@ -44,10 +44,10 @@
         </li>
         <li class="nav-icon">
           <RouterLink to="/admin">
-            <p>後台</p>
-            <!-- <div class="icon-wrap">
-              <img src="/home.svg" alt="home">
-            </div> -->
+            <!-- <p>後台</p> -->
+            <div class="icon-wrap">
+              <img src="/admin.svg" alt="home">
+            </div>
           </RouterLink>
         </li>
       </ul>
