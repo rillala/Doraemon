@@ -1,15 +1,14 @@
 main {
   width: 100svw;
   height: 100svh;
-
   background: $primaryColorPink;
   background-image: url("https://www.transparenttextures.com/patterns/grid-me.png");
-  padding: 40px 20px 80px 0;
+  padding: 40px 20px 80px;
 }
 
 .wrap {
   max-width: 360px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .post-wrap {
@@ -27,6 +26,7 @@ main {
 
 .img-wrap {
   width: 100%;
+  aspect-ratio: 3/2;
   @include br-10;
   overflow: hidden;
 

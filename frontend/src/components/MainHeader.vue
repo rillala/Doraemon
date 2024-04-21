@@ -20,8 +20,10 @@
           </div>
         </li>
         <li class="nav-icon addFile">
-          <div class="icon-wrap"><img class="addIcon" src="/add.svg" alt="addFile"></div>
-          <input class="addInput" type="file">
+          <div class="icon-wrap" @click="checkLogin">
+            <img class="addIcon" src="/add.svg" alt="addFile">
+          </div>
+          <input class="addInput" type="file" @change="fileChange" ref="fileInput" style="display: none;">
         </li>
         <li class="nav-icon">
           <RouterLink to="/game">
@@ -44,7 +46,6 @@
         </li>
         <li class="nav-icon">
           <RouterLink to="/admin">
-            <!-- <p>後台</p> -->
             <div class="icon-wrap">
               <img src="/admin.svg" alt="home">
             </div>
@@ -114,6 +115,7 @@ import {
   signInWithRedirect,
   getRedirectResult
 } from "firebase/auth";
+import { useImageStore } from '@/stores/image';
 
 //submenu狀態和導航
 const router = useRouter();
@@ -218,7 +220,6 @@ const singup = () => {
     })
 }
 
-
 //登入
 const signinForm = ref({
   email: '',
@@ -306,6 +307,31 @@ const signGoogle = async () => {
       console.error('Credential:', GoogleAuthProvider.credentialFromError(error));
     }
   }
+}
+
+//input file是瀏覽器預設事件，先在外層確認是否登入，如果登入使用.click()方法模擬input點擊
+const fileInput = ref(null);
+const checkLogin = ()=>{
+  if(auth.currentUser){
+    fileInput.value.click();
+  }else{
+    alert('請先登入');
+  }
+}
+
+//因為要跨頁面預覽image畫面，先暫存在pinia中，等送出後再儲存到firestore
+const ImggeStore = useImageStore();
+
+const fileChange = (e)=>{
+    const file = e.target.files[0];
+    const readFile = new FileReader;
+    //filereader讀取image(base64)
+    readFile.readAsDataURL(file);
+    //filereader讀取後觸發onload事件
+    readFile.onload = (e)=>{
+      ImggeStore.setPreviewImage(e.target.result);
+      router.push('/postmessage');
+    }
 }
 
 </script>

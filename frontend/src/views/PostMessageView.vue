@@ -3,7 +3,7 @@
         <div class="wrap">
             <div class="post-wrap">
                 <div class="img-wrap">
-                    <img src="https://fakeimg.pl/300x200/200">
+                    <img :src=imgSrc>
                 </div>
                 <textarea cols="20" rows="8" class="pcMarkText" placeholder="想說什麼呢？"></textarea>
                 <!-- <label for="" class="phInnerText">選擇地點
@@ -23,7 +23,14 @@
     </main>
 </template>
 
-<script setup></script>
+<script setup>
+import { useImageStore } from '@/stores/image';
+import { computed } from 'vue';
+
+const ImageStore = useImageStore();
+const imgSrc = computed(()=>ImageStore.previewImage)
+
+</script>
 <style lang="scss" scoped>
 @import "@/assets/scss/page/postMessage.scss";
 </style>
