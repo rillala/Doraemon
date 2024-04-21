@@ -7,7 +7,7 @@
 
 ## 功能特色
 
-* 首頁：使用Spingline製作3D圖樣，並撰寫互動動畫
+* 首頁：使用Spline製作3D圖樣，並撰寫互動動畫
 * 會員登入：使用Firebase Authenication驗證並管理使用者資料
 * 管理員登入：將管理員資訊儲存在 Firebase Cloud Firestore管理(帳號：test2 密碼：222)
 * 使用Firebase Hostiong部署專案網站
