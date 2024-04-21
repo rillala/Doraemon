@@ -5,7 +5,7 @@
 
 使用對象：在日常中，想分享在家瑣碎日常的人。
 
-網站連結：https://doraemon-dbbf0.web.app/
+網站連結(https://doraemon-dbbf0.web.app/)
 
 ## 功能特色
 
@@ -32,7 +32,7 @@ npm run dev
 
 ## 專案文件
 
-* [規劃及技術文件](https://polished-sock-a71.notion.site/f6e540cd5a1b4ab28e3e1925b597c003?v=d033b93fb8c44884adb69f510a2c2fe6&pvs=4)
+[規劃及技術文件](https://polished-sock-a71.notion.site/f6e540cd5a1b4ab28e3e1925b597c003?v=d033b93fb8c44884adb69f510a2c2fe6&pvs=4)
 
 ## 團隊貢獻者
 <a href="https://github.com/rillala"><img src="https://github.com/rillala/Doraemon/assets/152141976/85a15e35-9476-4380-82b1-b2d3a3704823" alt="rilla" width="50"/></a>
