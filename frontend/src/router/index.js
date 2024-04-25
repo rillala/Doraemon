@@ -142,6 +142,10 @@ const getCurrentUser = () => {
 };
 
 router.beforeEach(async (to, from, next) => {
+  if( to.meta && to.meta.title){
+      document.title = to.meta.title
+  }
+
   const requiresAdminAuth = to.matched.some(
     (record) => record.meta.requiresAdminAuth
   );
