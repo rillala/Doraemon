@@ -10,7 +10,7 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
-    "@splinetool/runtime": "^1.0.93",
+    "@splinetool/runtime": "^1.1.8",
     "@splinetool/viewer": "^1.0.91",
     "ant-design-vue": "^4.0.0-rc.6",
     "axios": "^1.6.8",
