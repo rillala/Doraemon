@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "firebase-admin": "^12.1.1",
     "git": "^0.1.5"
   }
 }

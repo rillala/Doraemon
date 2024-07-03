@@ -1,18 +1,27 @@
 <script setup>
 import { Input, Table, Descriptions, Button } from "ant-design-vue";
 import { EyeOutlined, CloseOutlined } from "@ant-design/icons-vue";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, onUnmounted, computed, watchEffect, nextTick } from "vue";
 import apiInstance from "@/plugins/auth";
+import { useFirestore } from '../../composable/useFirestore.js'
+import { useUserStore } from '@/stores/user'
+
+const { updateData } = useFirestore()
+const UserStore = useUserStore();
+//memberList要從pinia傳入，用computed保持更新
+const memberList = computed(()=>UserStore.memberList)
+const displayList = computed(()=>memberList.value)
+
 
 // 搜尋框
 const value = ref("");
 
-watch(value, (newValue) => {
-  if (newValue == "") {
-    console.log("newValue為空值");
-    displayList.value = memberList.value;
-  }
-});
+// watch(value, (newValue) => {
+//   if (newValue == "") {
+//     console.log("newValue為空值");
+//     displayList.value = memberList.value;
+//   }
+// });
 
 function onSearch(searchValue) {
   console.log("use value", searchValue);
@@ -20,11 +29,20 @@ function onSearch(searchValue) {
 
   displayList.value = memberList.value.filter((item) => {
     return (
-      item.name.includes(searchValue) ||
+      item.displayName.includes(searchValue) ||
       item.id.toString().includes(searchValue)
     );
   });
 }
+
+
+onMounted(async()=>{
+  await UserStore.fetchMembers();
+})
+
+// onUnmounted(() => {
+//   // UserStore.cleanUp();
+// });
 
 // Ant Design Table 組件的設定
 const columns = [
@@ -35,14 +53,14 @@ const columns = [
   },
   {
     title: "名稱",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "displayName",
+    key: "displayName",
   },
   {
     title: "狀態",
-    dataIndex: "status",
-    key: "status",
-    slots: { customRender: "status" },
+    dataIndex: "disabled",
+    key: "disabled",
+    slots: { customRender: "disabled" },
   },
   {
     title: "查看",
@@ -50,64 +68,71 @@ const columns = [
     slots: { customRender: "action" },
   },
 ];
-
 // fake member list
-const displayList = ref([]);
-const memberList = ref([
-  {
-    id: 1,
-    name: "John Doe1",
-    mail: "1234@gmail.com",
-    pic: "https://fakeimg.pl/100x100/",
-    status: "0",
-    highestScore: "80",
-  },
-  {
-    id: 2,
-    name: "John Doe2",
-    mail: "1234@gmail.com",
-    pic: "https://fakeimg.pl/100x100/",
-    status: "0",
-    highestScore: "80",
-  },
-  {
-    id: 3,
-    name: "John Doe3",
-    mail: "1234@gmail.com",
-    pic: "https://fakeimg.pl/100x100/",
-    status: "0",
-    highestScore: "80",
-  },
-  {
-    id: 4,
-    name: "John Doe4",
-    mail: "1234@gmail.com",
-    pic: "https://fakeimg.pl/100x100/",
-    status: "0",
-    highestScore: "80",
-  },
-  {
-    id: 5,
-    name: "John Doe5",
-    mail: "1234@gmail.com",
-    pic: "https://fakeimg.pl/100x100/",
-    status: "0",
-    highestScore: "80",
-  },
-]);
+// const memberList = ref([
+//   {
+//     id: 1,
+//     name: "John Doe1",
+//     mail: "1234@gmail.com",
+//     pic: "https://fakeimg.pl/100x100/",
+//     status: "0",
+//     highestScore: "80",
+//   },
+//   {
+//     id: 2,
+//     name: "John Doe2",
+//     mail: "1234@gmail.com",
+//     pic: "https://fakeimg.pl/100x100/",
+//     status: "0",
+//     highestScore: "80",
+//   },
+//   {
+//     id: 3,
+//     name: "John Doe3",
+//     mail: "1234@gmail.com",
+//     pic: "https://fakeimg.pl/100x100/",
+//     status: "0",
+//     highestScore: "80",
+//   },
+//   {
+//     id: 4,
+//     name: "John Doe4",
+//     mail: "1234@gmail.com",
+//     pic: "https://fakeimg.pl/100x100/",
+//     status: "0",
+//     highestScore: "80",
+//   },
+//   {
+//     id: 5,
+//     name: "John Doe5",
+//     mail: "1234@gmail.com",
+//     pic: "https://fakeimg.pl/100x100/",
+//     status: "0",
+//     highestScore: "80",
+//   },
+  // { "id": "8bEgcdzl3rMIQYYqJhTaunEQBC52", 
+  //   "photoURL": "https://firebasestorage.googleapis.com/v0/b/doraemon-dbbf0.appspot.com/o/avatars%2F8bEgcdzl3rMIQYYqJhTaunEQBC52?alt=media&token=bb517a7d-f029-441f-a99c-354f41a07fc9", 
+  //   "email": "10230260c@gmail.com", 
+  //   "uid": "8bEgcdzl3rMIQYYqJhTaunEQBC52", 
+  //   "emailVerified": true, 
+  //   "displayName":"馬蹄那", 
+  //   "disabled": false 
+  // }
+// ]);
 
-function getMember() {
-  apiInstance
-    .get("api")
-    .then((response) => {
-      response.data = displayList.value;
-      // 給予套組陣列初始值
-      displayList.value = memberList.value;
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
+
+// function getMember() {
+//   apiInstance
+//     .get("api")
+//     .then((response) => {
+//       response.data = displayList.value;
+//       // 給予套組陣列初始值
+//       displayList.value = memberList.value;
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//     });
+// }
 
 const infoBox = ref({});
 const showInfoBox = ref(false);
@@ -122,32 +147,26 @@ function showInfo(currentId) {
 }
 
 function changeStatue(currentId) {
-  let currentIndex = parseInt(currentId) - 1;
-  if (confirm(`確定要更改${memberList.value[currentIndex].name}的狀態?`)) {
-    console.log(currentId);
+  
+  let currentInfo = memberList.value.find((item) => item.id == currentId);
 
-    //這邊先假的修改
-    let currentStatue = memberList.value[currentIndex].status;
+  if (currentInfo) {
+    confirm(`確定要更改${currentInfo.displayName}的狀態?`)
+
     let newStatue;
 
-    if (currentStatue == 0) {
-      newStatue = 1;
+    if (currentInfo.disabled == false) {
+      newStatue = true;
     } else {
-      newStatue = 0;
+      newStatue = false;
     }
-    memberList.value[currentIndex].status = newStatue;
+    currentInfo.disabled = newStatue;
 
-    //修改管理員狀態, 這邊之後記得接資料庫
-    displayList.value = memberList.value;
-    showInfo(currentId);
+    //接到firestore資料庫
+    updateData("users",currentInfo.id,currentInfo)
   }
 }
 
-// 元件初始的時候執行
-onMounted(() => {
-  // getMember();
-  displayList.value = memberList.value;
-});
 </script>
 
 <template>
@@ -163,8 +182,8 @@ onMounted(() => {
     <div id="member-table" v-if="!showInfoBox">
       <Table :columns="columns" :data-source="displayList">
         <!-- 狀態列 -->
-        <template v-slot:status="{ text }">
-          <span>{{ text == 0 ? "啟用" : "停用" }}</span>
+        <template v-slot:disabled="{ text }">
+          <span>{{ text ==  false? "啟用" : "停用" }}</span>
         </template>
         <!-- 查看列 -->
         <template v-slot:action="{ record }">
@@ -177,24 +196,24 @@ onMounted(() => {
     <div id="member-info-box" v-if="showInfoBox">
       <CloseOutlined id="box-closed" @click="showInfoBox = false" />
       <Descriptions
-        :title="infoBox.name"
+        :title="infoBox.displayName"
         bordered
         :column="{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }"
       >
         <Descriptions.Item label="會員編號">{{ infoBox.id }}</Descriptions.Item>
         <Descriptions.Item label="會員照片"
-          ><img :src="infoBox.pic" :alt="infoBox.name"
+          ><img :src="infoBox.photoURL" :alt="infoBox.displayName" style="width: 100px; height: 100px;"
         /></Descriptions.Item>
 
-        <Descriptions.Item label="Email">{{ infoBox.mail }}</Descriptions.Item>
+        <Descriptions.Item label="Email">{{ infoBox.email }}</Descriptions.Item>
         <Descriptions.Item label="Highest Score">{{
           infoBox.highestScore
         }}</Descriptions.Item>
 
         <Descriptions.Item label="狀態" class="statue-cell"
-          >{{ infoBox.status == 0 ? "啟用" : "停用" }}
+          >{{ infoBox.disabled == false ? "啟用" : "停用" }}
           <Button type="default" @click="changeStatue(infoBox.id)">{{
-            infoBox.status == 0 ? "停用" : "啟用"
+            infoBox.disabled == false ? "停用" : "啟用"
           }}</Button>
         </Descriptions.Item>
       </Descriptions>

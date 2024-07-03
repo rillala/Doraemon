@@ -116,6 +116,7 @@ import {
   getRedirectResult
 } from "firebase/auth";
 import { useImageStore } from '@/stores/image';
+import { useFirestore } from "@/composable/useFirestore";
 
 //submenu狀態和導航
 const router = useRouter();
@@ -166,14 +167,16 @@ onMounted(() => {
 
 //使用firebase auth驗證
 const auth = getAuth();
+//除了使用authenication，還要同步資料到firestore
+const { updateData,addData,deleteData } = useFirestore()
 
-//註冊
+// 註冊 ----------------
 const signupForm = ref({
   name: '',
   email: '',
   password: '',
 })
-//註冊時的錯誤訊息
+// 註冊時的錯誤訊息
 const signupError = ref({
   email: '',
   password: ''
@@ -182,10 +185,11 @@ const cleansignupError = () => {
   signupError.value = { email: '', password: '' }
 }
 const singup = () => {
+  // --Authenication-- 
   createUserWithEmailAndPassword(auth, signupForm.value.email, signupForm.value.password)
     .then((userCredential) => {
       const user = userCredential.user;
-      //用mail註冊要另外把displayName存進去，使用updateProfile
+      // 用mail註冊要另外把displayName存進去，使用updateProfile
       updateProfile(user, { displayName: signupForm.value.name })
         .then(() => {
           //驗證mail後才算註冊成功
@@ -201,26 +205,28 @@ const singup = () => {
         }).catch((error) => {
           console.error(error);
         })
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      switch (errorCode) {
-        case 'auth/invalid-email':
-          signupError.value.email = '請輸入正確Email格式';
-          break;
-        case 'auth/email-already-in-use':
-          signupError.value.email = '此Email已存在';
-          break;
-        case 'auth/weak-password':
-          signupError.value.password = '密碼請設定6個字以上';
-          break;
-        default:
-          console.error(errorCode, error.message);
-      };
-    })
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        switch (errorCode) {
+          case 'auth/invalid-email':
+            signupError.value.email = '請輸入正確Email格式';
+            break;
+            case 'auth/email-already-in-use':
+              signupError.value.email = '此Email已存在';
+              break;
+              case 'auth/weak-password':
+                signupError.value.password = '密碼請設定6個字以上';
+                break;
+                default:
+                  console.error(errorCode, error.message);
+                };
+      })
+  // --firestore--
+  updateData("users")
 }
 
-//登入
+// 登入  ----------------
 const signinForm = ref({
   email: '',
   password: ''
@@ -250,7 +256,7 @@ onMounted(() => {
   })
 });
 
-//登出
+// 登出  ----------------
 const signout = () => {
   signOut(auth).then(() => {
     router.push('/');
@@ -269,7 +275,7 @@ const cleanForm = () => {
   signinForm.value.password = '';
 }
 
-//忘記密碼
+// 忘記密碼  ----------------
 const forgotEmail = ref({ input: '', status: false });
 const toggleForgotEmail = () => {
   forgotEmail.value.status = !forgotEmail.value.status;
@@ -286,7 +292,7 @@ const forgotPassword = () => {
     })
 }
 
-//google登入(到google登入頁面)
+// google登入(到google登入頁面)  ----------------
 const signGoogle = async () => {
   const providerGoogle = new GoogleAuthProvider();
   try {
